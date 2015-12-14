@@ -19,7 +19,6 @@
 #include <openacc.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
 
 #define NN 4096
 #define NM 4096
@@ -27,21 +26,8 @@
 double A[NN][NM];
 double Anew[NN][NM];
 
-struct timeval timerStart;
 
-void StartTimer()
-{
-    gettimeofday(&timerStart, NULL);
-}
 
-// time elapsed in ms
-double GetTimer()
-{
-    struct timeval timerStop, timerElapsed;
-    gettimeofday(&timerStop, NULL);
-    timersub(&timerStop, &timerStart, &timerElapsed);
-    return timerElapsed.tv_sec*1000.0+timerElapsed.tv_usec/1000.0;
-}
 
 int main(int argc, char** argv)
 {
@@ -61,8 +47,6 @@ int main(int argc, char** argv)
         Anew[j][0] = 1.0;
     }
 
-
-    StartTimer();
     int iter = 0;
 #pragma acc data copy(A), create(Anew)
     while ( error > tol && iter < iter_max )
@@ -91,9 +75,6 @@ int main(int argc, char** argv)
         
         iter++;
     }
-    
-    double runtime = GetTimer();
-    
-    printf(" total: %f s\n", runtime / 1000);
+	system("pause");
 }
 
