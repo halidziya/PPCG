@@ -16,65 +16,36 @@
 
 #include <math.h> 
 #include <string.h>
-#include <openacc.h>
+//#include <openacc.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NN 4096
-#define NM 4096
-
-double A[NN][NM];
-double Anew[NN][NM];
-
-
+#define MAXPOINT 1000
+#define MAXTABLE 100
 
 
 int main(int argc, char** argv)
 {
-    const int n = NN;
-    const int m = NM;
-    const int iter_max = 100;
+	int npoints = 1;
+	int ntables = 1;
+	int maxiter = 1;
+	int d = 1;
+	double* likemat= (double*) malloc(sizeof(double)*ntables*npoints);
 
-    const double tol = 1.0e-6;
-    double error     = 1.0;
-
-    memset(A, 0, n * m * sizeof(double));
-    memset(Anew, 0, n * m * sizeof(double));
-
-    for (int j = 0; j < n; j++)
-    {
-        A[j][0]    = 1.0;
-        Anew[j][0] = 1.0;
-    }
-
-    int iter = 0;
-#pragma acc data copy(A), create(Anew)
-    while ( error > tol && iter < iter_max )
-    {
-        error = 0.0;
-#pragma acc kernels
-        for( int j = 1; j < n-1; j++)
-        {   
-            for( int i = 1; i < m-1; i++ )
-            {   
-                Anew[j][i] = 0.25 * ( A[j][i+1] + A[j][i-1]
-                                    + A[j-1][i] + A[j+1][i]);
-                error = fmax( error, fabs(Anew[j][i] - A[j][i]));
-            }
-        }
-#pragma acc kernels
-        for( int j = 1; j < n-1; j++)
-        {   
-            for( int i = 1; i < m-1; i++ )
-            {   
-                A[j][i] = Anew[j][i];
-            }
-        }
-        
-        if(iter % 100 == 0) printf("%5d, %0.6f\n", iter, error);
-        
-        iter++;
-    }
+	for (auto iter = 0; iter < maxiter; iter++)
+	{
+	#pragma acc kernels
+	for (auto i = 0; i < npoints; i++)
+	{
+		for (auto j = 0; j < ntables; j++)
+		{
+			double likelihood = 0;
+			for (auto di = 0; di < d; di++)
+				likelihood += 0; // data - mu
+			likemat[i+j*npoints] = likelihood;
+		}
+	}
+	}
 	system("pause");
 }
 

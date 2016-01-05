@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\main.cpp(37): warning C4068: unknown pragma
+  UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\x64\Debug\UncollapsedSampler.exe
+  UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\x64\Debug\UncollapsedSampler.pdb (Partial PDB)

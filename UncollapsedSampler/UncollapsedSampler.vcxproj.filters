@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="compile.pbs" />
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="compile.pbs" />
-    <None Include="Makefile" />
   </ItemGroup>
 </Project>
