@@ -19,11 +19,11 @@
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="README.txt" />
+    <ClCompile Include="igmm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
