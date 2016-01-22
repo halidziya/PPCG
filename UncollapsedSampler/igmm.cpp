@@ -7,6 +7,7 @@
 #include <fstream>
 #include <list>
 #include "IWishart.h"
+#include "Algorithms.h"
 using namespace std;
 
 
@@ -71,8 +72,8 @@ int main(int argc, char** argv)
 	ThreadPool tpool(thread::hardware_concurrency());
 	Normal nr(priormean,priorvariance);
 	Vector& r = nr.rnd();
-	//for (auto i = 0; i < tpool.numthreads ;i++)
-		//tpool.submit(ds.chunks[i]);
+
+	kmeans(ds);
 
 	system("pause");
 }

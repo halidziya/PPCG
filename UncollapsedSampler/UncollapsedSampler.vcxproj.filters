@@ -28,12 +28,18 @@
     <ClCompile Include="DataSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Algorithms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="igmm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -124,6 +124,7 @@
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithms.cpp" />
     <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="igmm.cpp" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithms.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="igmm.h" />
   </ItemGroup>
