@@ -127,6 +127,8 @@
     <ClCompile Include="Algorithms.cpp" />
     <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="igmm.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
+    <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
@@ -134,8 +136,8 @@
   <ItemGroup>
     <ClInclude Include="Algorithms.h" />
     <ClInclude Include="DataSet.h" />
-    <ClInclude Include="igmm.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="Table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

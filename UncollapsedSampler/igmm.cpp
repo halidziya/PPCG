@@ -8,6 +8,7 @@
 #include <list>
 #include "IWishart.h"
 #include "Algorithms.h"
+#include "Table.h"
 using namespace std;
 
 
@@ -67,11 +68,17 @@ int main(int argc, char** argv)
 
 	Vector labels = kmeans(ds);
 	Vector loglik0;
-
+	precomputeGammaLn(2 * n + 10);
+	Stut stt(priormean, priorvariance, ds.m);
+	loglik0 = stt.likelihood(ds.data);
 
 	//UncollapsedSampler(ds, labels);
 	Normal nr(v({ 1.0,1.0,1.0 }), eye(d));
 	cout << nr.likelihood(zeros(d));
 	auto x = { 1,1,1 };
+
+	
+
+
 	system("pause");
 }
