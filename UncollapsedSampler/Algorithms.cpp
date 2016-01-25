@@ -1,10 +1,11 @@
 #include "Algorithms.h"
 
 
-Vector kmeans(DataSet& ds,int k)
+Vector kmeans(DataSet& ds)
 {
-	Matrix means(k, ds.d);
-	Vector counts(k);
+	int k = ds.d; // Our matrices are square in buffer
+	Matrix means(ds.d, ds.d);
+	Vector counts(ds.d);
 	Vector results(ds.n);
 	ThreadPool tpool(thread::hardware_concurrency());
 	vector<KmeansTask> ktasks;
@@ -42,6 +43,24 @@ Vector kmeans(DataSet& ds,int k)
 		position = position + ktasks[i].labels.n;
 	}
 	return results;
+}
+
+Vector UncollapsedSampler(DataSet & ds, Vector & initalLabels)
+{
+	// Sample normal Centers
+	// Sample wishart variates
+	// For each task sample based on likelihood
+/*	getMeans(ds, initalLabels);
+	getScatters(ds, initalLabels);
+	ThreadPool tpool(thread::hardware_concurrency());
+	vector<Normal> restaurant;
+	Normal nr(posteiormean, posteriorvariance);
+	Vector& mean = nr.rnd();
+
+	IWishart  iw(posteriorscatter, posteriordf);
+	iw.rnd();*/
+
+	return Vector();
 }
 
 KmeansTask::KmeansTask(Matrix& data, Matrix& centers) :  data(data), means(centers)

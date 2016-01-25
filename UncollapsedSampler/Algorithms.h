@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include "ThreadPool.h"
 #include "DataSet.h"
+#include "IWishart.h"
 class KmeansTask : public Task
 {
 public:
@@ -13,4 +14,5 @@ public:
 	void run(int id);
 };
 
-Vector kmeans(DataSet& ds,int k=3);
+Vector kmeans(DataSet& ds);
+Vector UncollapsedSampler(DataSet& ds, Vector& initalLabels);

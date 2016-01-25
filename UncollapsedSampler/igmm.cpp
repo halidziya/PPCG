@@ -63,17 +63,15 @@ int main(int argc, char** argv)
 	priorvariance = Global::Psi*((Global::kappa + 1) / ((Global::kappa)*Global::eta));
 	priormean = Global::mu0;
 	
+	
 
-	IWishart w(priorvariance,d+2);
-	w.rnd().print();
-	w.rnd().print();
-	w.rnd().print();
-	vector<Normal> restaurant;
-	ThreadPool tpool(thread::hardware_concurrency());
-	Normal nr(priormean,priorvariance);
-	Vector& r = nr.rnd();
+	Vector labels = kmeans(ds);
+	Vector loglik0;
 
-	kmeans(ds);
 
+	//UncollapsedSampler(ds, labels);
+	Normal nr(v({ 1.0,1.0,1.0 }), eye(d));
+	cout << nr.likelihood(zeros(d));
+	auto x = { 1,1,1 };
 	system("pause");
 }

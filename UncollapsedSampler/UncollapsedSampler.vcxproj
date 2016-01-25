@@ -135,6 +135,7 @@
     <ClInclude Include="Algorithms.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="igmm.h" />
+    <ClInclude Include="Restaurant.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
