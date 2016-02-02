@@ -3,12 +3,12 @@
 #include "Global.h"
 #include "Stut.h"
 
-class DataSet : public Global
+class DataSet 
 {
 public:
 	DataSet(char* datafile,char* priorfile,char* configfile);
 	Matrix data;
-	Matrix* chunks;
+	vector<Matrix> chunks;
 	Matrix prior;
 	~DataSet(void);
 };

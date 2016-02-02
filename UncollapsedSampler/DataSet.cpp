@@ -15,25 +15,25 @@ DataSet::DataSet(char* datafile,char* priorfile,char* configfile)
 	d =  conf(0)(0);
 	m =  conf(0)[1];
 	kappa  = conf(0)[2];
-	kappai = conf(0)[3];
+	double kappai = conf(0)[3];
 	alpha  = conf(0)[4];
-	gamma  = conf(0)[5];
+	gamma  = conf(0)[5]/10;
 
 	int nthd = thread::hardware_concurrency();
 	init_buffer(nthd, d);
 	printf("Threads %d\n", nthd);
 
 	Psi = prior;
-	Global::Psi.r = d; // Last row is shadowed
+	Psi.r = d; // Last row is shadowed
 	Psi.n = d*d;
 	mu0 = prior(d).copy();
-	eta = m - d + 1;
+	T_eta = m - d + 1;
 
 	int chunksize = ceil((double)data.r / nthd);
-	chunks = new Matrix[nthd];
+	chunks.resize(nthd);
 	for (auto i = 0; i < nthd; i++)
 	{
-		chunks[i] = data.submat(i*chunksize,(i+1)*chunksize,0,d);
+		chunks[i] <= data.submat(i*chunksize,(i+1)*chunksize,0,d);
 	}
 
 }
@@ -41,7 +41,7 @@ DataSet::DataSet(char* datafile,char* priorfile,char* configfile)
 
 DataSet::~DataSet(void)
 {
-	Global::Psi.r = d+1; // Last row is shadowed
+	Psi.r = d+1; // Last row is shadowed
 	Psi.n = d*(d+1);
 }
 

@@ -1,7 +1,24 @@
 ﻿  igmm.cpp
 c:\users\hzyereba\desktop\fastmat\util.h(6): warning C4005: 'INFINITY': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(78): note: see previous definition of 'INFINITY'
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(54): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
-  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(54): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(53): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(53): note: consider using '%zd' in the format string
+  Table.cpp
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\table.cpp(74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  Restaurant.cpp
+c:\users\hzyereba\desktop\fastmat\util.h(6): warning C4005: 'INFINITY': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(78): note: see previous definition of 'INFINITY'
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(24): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(24): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(24): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(44): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(48): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(51): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(53): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(80): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(87): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+  Generating Code...
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\table.cpp(14): warning C4715: 'Table::loglikelihood': not all control paths return a value
   UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\$\UncollapsedSampler.exe
   UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\$\UncollapsedSampler.pdb (Partial PDB)

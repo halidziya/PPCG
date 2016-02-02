@@ -9,6 +9,7 @@
 #include "IWishart.h"
 #include "Algorithms.h"
 #include "Table.h"
+#include "Restaurant.h"
 using namespace std;
 
 
@@ -17,8 +18,6 @@ int BURNIN = 100;
 int SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "results";
 
-// Variables
-int d, n;
 
 
 
@@ -54,31 +53,48 @@ int main(int argc, char** argv)
 	printf("size of int %d", sizeof(int));
 	printf("Reading...\n");
 	DataSet ds(datafile, priorfile, configfile);
-	ofstream nsampleslog(ss.append("nsamples.log"));
-	d = Global::d;
-	n = ds.n;
-	
+	n = ds.data.r;
+	d = ds.data.m;
 	Vector priormean(d);
 	Matrix priorvariance(d, d,1);
 	//priorvariance.eye();
-	priorvariance = Global::Psi*((Global::kappa + 1) / ((Global::kappa)*Global::eta));
-	priormean = Global::mu0;
+	priorvariance = Psi*((kappa + 1) / ((kappa)*T_eta));
+	priormean = mu0;
 	
 	
 
 	Vector labels = kmeans(ds);
-	Vector loglik0;
-	precomputeGammaLn(2 * n + 10);
-	Stut stt(priormean, priorvariance, ds.m);
-	loglik0 = stt.likelihood(ds.data);
-
-	//UncollapsedSampler(ds, labels);
-	Normal nr(v({ 1.0,1.0,1.0 }), eye(d));
-	cout << nr.likelihood(zeros(d));
-	auto x = { 1,1,1 };
-
 	
+	precomputeGammaLn(2 * n + 100*d);
+	Stut stt(priormean, priorvariance, T_eta);
+	loglik0 = stt.likelihood(ds.data);
+	Restaurant r(ds,10);
+	r.createTables(labels);
+	ThreadPool tpool(thread::hardware_concurrency());
 
 
-	system("pause");
+
+	r.getInfo();
+	for (auto i = 0; i < 400; i++)
+	{
+		r.resetStats();
+		for (auto i = 0; i < tpool.numthreads; i++) {
+			tpool.submit(r);
+		}
+		tpool.waitAll();
+		r.samplePosteriors();
+		if (i % 100 == 0)
+		{
+			printf("\n\nITER  : %d\n\n", i);
+			// r.getInfo();
+		}
+	}
+	r.getInfo();
+
+	string s(result_dir);
+	ofstream restfile(s.append("igmm.rest"), ios::out | ios::binary);
+
+	restfile << r;
+	restfile.close();
+
 }

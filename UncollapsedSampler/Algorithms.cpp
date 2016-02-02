@@ -3,17 +3,18 @@
 
 Vector kmeans(DataSet& ds)
 {
-	int k = ds.d; // Our matrices are square in buffer
-	Matrix means(ds.d, ds.d);
-	Vector counts(ds.d);
-	Vector results(ds.n);
+	int k = d; // Our matrices are square in buffer
+	Matrix means(d, d); // This need to be modified , But buffer size is fixed so I am exploting that
+	Vector counts(d);
+	Vector results(n);
 	ThreadPool tpool(thread::hardware_concurrency());
 	vector<KmeansTask> ktasks;
 	for (auto iter = 0; iter < 100; iter++){
 		
 		
 		for (auto i = 0; i < k; i++) {
-			means(i) = ds.data(i*(ds.n/k));
+			Vector v = ds.data(i*(n/k));
+			means(i) = v;
 		}
 
 		for (auto i = 0; i < tpool.numthreads; i++) {
