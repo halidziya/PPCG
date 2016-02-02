@@ -16,7 +16,7 @@ using namespace std;
 int MAX_SWEEP = 500;
 int BURNIN = 100;
 int SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
-char* result_dir = "results";
+char* result_dir = "";
 
 
 
@@ -68,14 +68,14 @@ int main(int argc, char** argv)
 	precomputeGammaLn(2 * n + 100*d);
 	Stut stt(priormean, priorvariance, T_eta);
 	loglik0 = stt.likelihood(ds.data);
-	Restaurant r(ds,10);
+	Restaurant r(ds,6);
 	r.createTables(labels);
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
 
 	r.getInfo();
-	for (auto i = 0; i < 400; i++)
+	for (auto i = 0; i < 1000; i++)
 	{
 		r.resetStats();
 		for (auto i = 0; i < tpool.numthreads; i++) {
@@ -87,14 +87,14 @@ int main(int argc, char** argv)
 		{
 			printf("\n\nITER  : %d\n\n", i);
 			// r.getInfo();
+			flush(cout);
 		}
 	}
 	r.getInfo();
 
 	string s(result_dir);
-	ofstream restfile(s.append("igmm.rest"), ios::out | ios::binary);
+	ofstream restfile(s.append("_igmm.rest"), ios::out | ios::binary);
 
 	restfile << r;
 	restfile.close();
-
 }

@@ -1,4 +1,4 @@
-function [ tables,labels]=readOutput(filename)
+function [ tables,labels]=igmm_readOutput(filename)
 file=fopen(filename);
 ntables=fread(file,1,'int');
 tables = [];
