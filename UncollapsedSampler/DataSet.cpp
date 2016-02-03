@@ -9,6 +9,11 @@ DataSet::DataSet(char* datafile,char* priorfile,char* configfile)
 	Matrix conf;
 	Matrix labels;
 	data.readBin(datafile);
+	if (data.data == NULL)
+	{
+		system("pause");
+		exit(-1);
+	}
 	prior.readBin(priorfile);
 	conf.readBin(configfile);
 	n = data.r;

@@ -1,2 +1,3 @@
-cc = hsv(9);
-colormap(cc/1.3);
+ncolor=30;
+cc = hsv(ncolor);
+colormap(cc(randperm(ncolor),:)/1.1);

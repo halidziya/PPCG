@@ -32,13 +32,14 @@ void Table::calculatePosteriors()
 	}
 
 		predictive = false;
+		double divider = 1.0/(kappa+ totalpoints);
 		Vector& mean = ssum / totalpoints;
 		//sscatter = sscatter - (mean.outer(mean))*totalpoints;
-		posteriorcov = IWishart(Psi + sscatter, m + totalpoints);
+		Vector& diff = (mean-mu0);
+		posteriorcov = IWishart(Psi + sscatter + diff.outer(diff)*divider*kappa*totalpoints , m + totalpoints);
 		Matrix& sigma = posteriorcov.rnd();
-		Matrix& sigmainv = sigma.inverse();
-		Matrix& newcov = (Psi.inverse() + sigmainv*totalpoints).inverse();
-		posteriormean = Normal(newcov*(sigmainv*ssum + Psi.inverse()*mu0), newcov);
+		
+		posteriormean = Normal((ssum + mu0*kappa)*divider, sigma*divider);
 		datadist = Normal(posteriormean.rnd(), sigma);
 	}
 	else

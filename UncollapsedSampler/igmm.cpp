@@ -17,7 +17,7 @@ int MAX_SWEEP = 500;
 int BURNIN = 100;
 int SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
-
+int MAX_TABLE = 100;
 
 
 
@@ -40,12 +40,12 @@ int main(int argc, char** argv)
 	if (argc>4)
 		MAX_SWEEP = atoi(argv[4]);
 	if (argc>5)
-		BURNIN = atoi(argv[5]);
+		MAX_TABLE = atoi(argv[5]);
 	if (argc > 6)
 		result_dir = argv[6];
-	SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value
-	if (argc>7)
-		SAMPLE = atoi(argv[7]);
+	//SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value
+	//if (argc>7)
+	//	SAMPLE = atoi(argv[7]);
 
 	step();
 	
@@ -68,14 +68,14 @@ int main(int argc, char** argv)
 	precomputeGammaLn(2 * n + 100*d);
 	Stut stt(priormean, priorvariance, T_eta);
 	loglik0 = stt.likelihood(ds.data);
-	Restaurant r(ds,6);
+	Restaurant r(ds, MAX_TABLE);
 	r.createTables(labels);
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
 
 	r.getInfo();
-	for (auto i = 0; i < 1000; i++)
+	for (auto i = 0; i < MAX_SWEEP; i++)
 	{
 		r.resetStats();
 		for (auto i = 0; i < tpool.numthreads; i++) {
