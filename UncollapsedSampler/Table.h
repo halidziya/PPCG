@@ -4,26 +4,24 @@
 
 
 
-
 class Table {
 public:
 	Normal posteriormean;
 	IWishart posteriorcov;
 	Normal datadist;
-	double stick;
 
 	vector<Vector> sum; // Sum for each thread
 	vector<Matrix> scatter; // Scatter for each thread
 	vector<double> likelihood; // Likelihood buffer for each thread, It avoids likelihood vector generation for each point
 	vector<int>    npoints; // Number of data points for each thread
 	int totalpoints;
-	static double eta;
-	static double kappa;
-	double loglikelihood(Vector& v, double predictivelikelihood=-INFINITY);
+	double loglikelihood(Vector& v);
 	void calculatePosteriors();
 	void resetStats();
 	void addPoint(Vector& v, int threadid);
-	bool predictive; // Use predictive distribtion
+	void cremovePoint(Vector& v); // Collapsed Table
+	void caddPoint(Vector& v); // Collapsed Table
+	void calculateTotalPoints();
 	Table();
 	friend ostream& operator<<(ostream& os, const Table& t);
 };

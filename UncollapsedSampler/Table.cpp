@@ -1,37 +1,25 @@
 #include "Table.h"
 
-double Table::eta;
-double Table::kappa;
-
-
-
-double Table::loglikelihood(Vector & v,double predictivelikelihood)
+double Table::loglikelihood(Vector & v)
 {
-	if (!predictive) // Occupied Table
-	{
 		return datadist.likelihood(v);
-	}
-	else
-		return predictivelikelihood;
 }
 
 void Table::calculatePosteriors()
 {
 	Vector ssum(d);
 	Matrix sscatter(d,d);
-	totalpoints=0;
+	
 	ssum.zero();
 	sscatter.zero();
-	for (auto i = 0; i < sum.size(); i++)
-		totalpoints = totalpoints + npoints[i];
+
+	calculateTotalPoints();
 	
 	if (totalpoints != 0) {
 	for (auto i = 0; i < sum.size(); i++) {
 		ssum = ssum + sum[i];
 		sscatter = sscatter + scatter[i];
 	}
-
-		predictive = false;
 		double divider = 1.0/(kappa+ totalpoints);
 		Vector& mean = ssum / totalpoints;
 		//sscatter = sscatter - (mean.outer(mean))*totalpoints;
@@ -41,9 +29,18 @@ void Table::calculatePosteriors()
 		
 		posteriormean = Normal((ssum + mu0*kappa)*divider, sigma*divider);
 		datadist = Normal(posteriormean.rnd(), sigma);
+
+		/*
+		Vector& mean = ssum / totalpoints;
+		//sscatter = sscatter - (mean.outer(mean))*totalpoints;
+		posteriorcov = IWishart(Psi + sscatter, m + totalpoints);
+		Matrix& sigma = posteriorcov.rnd();
+		Matrix& sigmainv = sigma.inverse();
+		Matrix& newcov = (Psi.inverse() + sigmainv*totalpoints).inverse();
+		posteriormean = Normal(newcov*(sigmainv*ssum + Psi.inverse()*mu0), newcov);
+		datadist = Normal(posteriormean.rnd(), sigma);
+		*/
 	}
-	else
-		predictive = true; // access to student T likelihood
 	//printf("--%d--\n", predictive);
 }
 
@@ -61,7 +58,7 @@ void Table::resetStats()
 		likelihood[i] = 0;
 		npoints[i] = 0;
 	}
-
+	totalpoints = 0;
 }
 
 void Table::addPoint(Vector & v,int id)
@@ -72,10 +69,45 @@ void Table::addPoint(Vector & v,int id)
 	this->scatter[id] = this->scatter[id] + diff.outer(diff);
 }
 
+//Used in collapsed version
+void Table::cremovePoint(Vector & v)
+{
+	int threadid = 0;
+	 // Get abstract of the output buffer
+	//sampleScatter = (sampleScatter - (diff >> diff)*(npoints / (npoints - 1.0)));
+	//sampleMean = ((sampleMean * (npoints / (npoints - 1.0))) - v *(1.0 / (npoints - 1.0)));
+	this->sum[threadid] = this->sum[threadid] - v;
+	Vector& sampleMean = sum[threadid] / npoints[threadid];
+	Vector& diff = (v - sampleMean);
+	this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*(npoints[threadid] / (npoints[threadid] - 1.0));
+	this->npoints[threadid] -= 1;
+}
+
+//Used in collapsed version
+void Table::caddPoint(Vector & v)
+{
+	int threadid = 0;
+	this->npoints[threadid] += 1;
+	Vector& sampleMean = sum[threadid] / (npoints[threadid]-1);
+	if (npoints[threadid] == 1)
+		sampleMean <= mu0;
+	Vector& diff = (v - sampleMean);
+	this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*((npoints[threadid] -1.0)/ npoints[threadid]);
+	this->sum[threadid] = this->sum[threadid] + v;
+}
+
+
+void Table::calculateTotalPoints()
+{
+	totalpoints = 0;
+	for (auto i = 0; i < sum.size(); i++)
+		totalpoints = totalpoints + npoints[i];
+}
+
 Table::Table()
 {
 	posteriormean = Normal(d);
-	posteriorcov = IWishart(Psi,eta);
+	posteriorcov = IWishart(Psi,m);
 	datadist     = Normal(d); 
 	resetStats();
 }
@@ -84,7 +116,7 @@ Table::Table()
 ostream& operator<<(ostream& os, const Table& t)
 {
 
-	printf("%d\n", t.totalpoints);
+	//printf("%d\n", t.totalpoints);
 	os.write((char*) &t.totalpoints,sizeof(int));
 	os << t.datadist.mu;
 	os << t.datadist.cholsigma;

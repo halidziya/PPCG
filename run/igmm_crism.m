@@ -11,20 +11,19 @@ prefix = strcat(folder,'/','crism');
 
 
 num_sweeps = '200';
-maxtables  =  '50';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
-cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps , ' ', maxtables , ' ',prefix];
+cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps , ' ',prefix];
 fprintf(1,'\nIGMM is running...\n');
 
 
 d=size(X,2);
-m = d+2;
+m = 2*d+2;
 mu0 = mean(X);
-k0=1;
-gam=1;
-s=1;
+k0=0.5;
+gam=0.1;
+s=d^0.5;
 Psi=(m-d-1)*eye(d)/s;
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 

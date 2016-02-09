@@ -13,11 +13,10 @@
 using namespace std;
 
 
-int MAX_SWEEP = 500;
+int MAX_SWEEP = 5;
 int BURNIN = 100;
 int SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
-int MAX_TABLE = 100;
 
 
 
@@ -39,10 +38,8 @@ int main(int argc, char** argv)
 
 	if (argc>4)
 		MAX_SWEEP = atoi(argv[4]);
-	if (argc>5)
-		MAX_TABLE = atoi(argv[5]);
-	if (argc > 6)
-		result_dir = argv[6];
+	if (argc > 5)
+		result_dir = argv[5];
 	//SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value
 	//if (argc>7)
 	//	SAMPLE = atoi(argv[7]);
@@ -50,7 +47,6 @@ int main(int argc, char** argv)
 	step();
 	
 	string ss(result_dir);
-	printf("size of int %d", sizeof(int));
 	printf("Reading...\n");
 	DataSet ds(datafile, priorfile, configfile);
 	n = ds.data.r;
@@ -65,36 +61,48 @@ int main(int argc, char** argv)
 
 	Vector labels = kmeans(ds);
 	
+	generator.seed(time(NULL));
 	precomputeGammaLn(2 * n + 100*d);
 	Stut stt(priormean, priorvariance, T_eta);
 	loglik0 = stt.likelihood(ds.data);
-	Restaurant r(ds, MAX_TABLE);
+	Restaurant r(ds);
 	r.createTables(labels);
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
-
 	r.getInfo();
-	for (auto i = 0; i < MAX_SWEEP; i++)
+	for (auto i = 0; i < MAX_SWEEP+1; i++)
 	{
+		if (i == MAX_SWEEP) // Last iteration is on tables created , and it is not collapsed. 
+			r.collapsed = 0;
 		r.resetStats();
 		for (auto i = 0; i < tpool.numthreads; i++) {
 			tpool.submit(r);
+			
 		}
 		tpool.waitAll();
 		r.samplePosteriors();
+		//system("pause");
+		
 		if (i % 100 == 0)
 		{
 			printf("\n\nITER  : %d\n\n", i);
+			printf("Tables : %d\n", r.tables.size());
 			// r.getInfo();
 			flush(cout);
 		}
+
+		
 	}
-	r.getInfo();
+
+
+	printf("NTABLES : %d == %.3f", r.tables.size(), 1+r.labels.maximum());
+	if (r.tables.size() != 1 + r.labels.maximum())
+		printf("ERROR");
 
 	string s(result_dir);
 	ofstream restfile(s.append("_igmm.rest"), ios::out | ios::binary);
-
+	
 	restfile << r;
 	restfile.close();
 }
