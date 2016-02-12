@@ -207,25 +207,29 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 	//}
 	int newtableid = tables.size();
 	list<Table>::iterator it = ctables.begin();
-	list<list<Table>::iterator> collapsedLabels;
+	vector<list<Table>::iterator> collapsedLabels;
 	it->resetStats();
+	collapsedLabels.resize(dataids.size());
 	// Initially all in same table
+	i = 0;
 	for (auto dataid : dataids) {
 		
 		it->caddPoint(ds.data(dataid)); // Only 1 thread
 		labels[dataid] = newtableid;
+		collapsedLabels[i++] = it;
 	}
 	
-	for (auto iter = 0; iter < 1;iter++){
 	if (dataids.size()>1)
+	for (auto iter = 0; iter < 3;iter++){
+		i = 0;
 	for (auto dataid : dataids) {
-		/*
-		Vector& v = ds.data(dataid);
-		it->cremovePoint(v);
 		
-		if (it->npoints[0] == 0)
-			ctables.erase(it);
-		/*	void calculateDist()
+		Vector& v = ds.data(dataid);
+		collapsedLabels[i]->cremovePoint(v);
+		
+		if (collapsedLabels[i]->npoints[0] == 0)
+			ctables.erase(collapsedLabels[i]);
+	/*		void calculateDist()
 	{
 		double s1 = Global::kappa + npoints;
 		dist.eta = m + 1 + this->npoints - d;
@@ -237,9 +241,8 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 				*(npoints*kappa / (s1)))
 				*((s1 + 1) / (s1*dist.eta))).chol();
 		dist.calculateNormalizer();
-		}
-	*/
-	/*
+		}*/
+
 		for (auto& table : ctables)
 		{
 			int npoints = table.npoints[0];
@@ -287,36 +290,46 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 			t.resetStats();
 			t.caddPoint(v);
 			ctables.push_back(t);
-			labels[dataid] = -1;
+			collapsedLabels[i] = (--ctables.end());
 		}
 		else
 		{
 			lasttable->caddPoint(v);
-			labels[dataid] = -1;
+			collapsedLabels[i] = lasttable;
 		}
-		*/
+
+		i++; //Point index
 	}
 
-	/*for (auto iter = ctables.begin(); iter != ctables.end();)
+	for (auto iter = ctables.begin(); iter != ctables.end();)
 		if (iter->npoints[0] == 0)
 		{
 			iter = ctables.erase(iter);
 		}
 		else
-			iter++;*/
+			iter++;
 			
 	}
+
+	for (auto& table : ctables)
+		table.id = newtableid++;
+
+	i = 0;
+	for (auto dataid : dataids)
+	{
+		labels[dataid] = collapsedLabels[i++]->id;
+	}
 	
-	//printf("==> %d", newtableid);
+	
 
 	return ctables;
 }
 
-ostream & operator<<(ostream & os, const Restaurant & r)
+ostream & operator<<(ostream & os, Restaurant & r)
 {
 	int a = r.tables.size();
 	os.write((char*)&a, sizeof(int));
-	for (const Table& table : r.tables)
+	for (Table& table : r.tables)
 		os << table;
 	os << r.labels;
 	return os;

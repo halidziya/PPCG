@@ -9,29 +9,27 @@ folder = strcat(experiments,'crism');
 igmm_mkdir(folder);
 prefix = strcat(folder,'/','crism');
 
-
 num_sweeps = '2000';
-maxtables  =  '50';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
-cmd = ['dpm64.exe ',data,' ',prior,' ',params,' ',num_sweeps , ' ', maxtables , ' ',prefix];
-fprintf(1,'\nIGMM is running...\n');
+fprintf(1,'\nIGMM_collapsed is running...\n');
 
-
+burn_in = '1000';
 d=size(X,2);
 m = d+2;
 mu0 = mean(X);
-k0=1;
+k0=0.001;
 gam=1;
-alpha=1;
 s=1;
+step = '100';
 Psi=(m-d-1)*eye(d)/s;
-dpm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,alpha,gam);
-
+dpm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,1,gam);
+cmd = ['dpm64.exe ',data,' ',prior,' ',params,' ',num_sweeps,' ', burn_in,' ',prefix,' ',step];
+fprintf(1,'\nDPGMM is running...\n');
 tic;
 system(cmd);
-elapsed_time(1)=toc;
+elapsed_time=toc;
 
 [tables customers klabels]=dpm_readOutput(prefix);
 labels = klabels(:,end);

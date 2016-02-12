@@ -23,5 +23,6 @@ public:
 	void caddPoint(Vector& v); // Collapsed Table
 	void calculateTotalPoints();
 	Table();
-	friend ostream& operator<<(ostream& os, const Table& t);
+	friend ostream& operator<<(ostream& os, Table& t);
+	int id; // Used in collapsed part, uncollapsed one does not need for now
 };

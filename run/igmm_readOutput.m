@@ -22,4 +22,5 @@ function table=readTable(file)
         table.npoints = fread(file,1,'int');
         table.mu = readMat(file);
         table.cholsigma = readMat(file);
+        table.scatter = readMat(file);
 end

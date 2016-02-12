@@ -20,11 +20,17 @@ void Table::calculatePosteriors()
 		ssum = ssum + sum[i];
 		sscatter = sscatter + scatter[i];
 	}
+
+		totalpoints = totalpoints;
 		double divider = 1.0/(kappa+ totalpoints);
-		Vector& mean = ssum / totalpoints;
+		Vector& mean = ssum  / totalpoints;
 		//sscatter = sscatter - (mean.outer(mean))*totalpoints;
 		Vector& diff = (mean-mu0);
-		posteriorcov = IWishart(Psi + sscatter + diff.outer(diff)*divider*kappa*totalpoints , m + totalpoints);
+		// + diff.outer(diff)*divider*kappa*totalpoints // Mu_j is known
+		posteriorcov = IWishart(Psi + sscatter , m + totalpoints);
+		//sscatter.zero();
+		//for (auto i = 0; i < 100; i++)
+			//sscatter = sscatter + posteriorcov.rnd();
 		Matrix& sigma = posteriorcov.rnd();
 		
 		posteriormean = Normal((ssum + mu0*kappa)*divider, sigma*divider);
@@ -113,12 +119,18 @@ Table::Table()
 }
 
 
-ostream& operator<<(ostream& os, const Table& t)
+ostream& operator<<(ostream& os, Table& t)
 {
 
 	//printf("%d\n", t.totalpoints);
 	os.write((char*) &t.totalpoints,sizeof(int));
 	os << t.datadist.mu;
 	os << t.datadist.cholsigma;
+	Matrix sscatter(d, d);
+	sscatter.zero();
+	for (auto i = 0; i < t.sum.size(); i++) {
+		sscatter = sscatter + t.scatter[i];
+	}
+	os << sscatter;
 	return os;
 }

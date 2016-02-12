@@ -1,10 +1,13 @@
 clear;
 load ..\data\toy\ToyData_I2GMM_journal_3rare_3normal_3D_final.mat
 %Xorg = X;
-%X=[1.01 1.01;0.99 0.99; 1 1; 0 0 ;  -1.01 -1.01; -1 -1;-0.99 -0.99;1 -1];
-%Y = [1;1;1;2;3;3;3;4];
+%X=[-1 -1; -0.99 -0.99; -1.01 -1.01; -1 -0.99;1 1; 0.99 0.99; 1.01 1.01; 1 0.99;-2 2;-2.01 2;];
+%X=X;
+%Y = [1 1 1 1 2 2 2 2 3];
+%load fisheriris;
+%X=meas;
 X=igmm_normalize(X);
-igmm_colorSettings;
+
 
 experiments='experiments/';
 folder = strcat(experiments,'toy');
@@ -12,7 +15,7 @@ igmm_mkdir(folder);
 prefix = strcat(folder,'/','toy');
 
 
-num_sweeps = '2500';
+num_sweeps = '2000';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
@@ -23,9 +26,9 @@ fprintf(1,'\nIGMM is running...\n');
 d=size(X,2);
 m = d+2;
 mu0 = mean(X);
-k0=0.01;
+k0=0.001;
 gam=1;
-s=d^(1/2);
+s=1;
 Psi=(m-d-1)*eye(d)/s;
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 
@@ -35,14 +38,24 @@ elapsed_time(1)=toc;
 
 [table labels]=igmm_readOutput([prefix '_igmm.rest']);
 clf
-scatter(X(:,1),X(:,2),40,labels,'.')
+scatter(X(:,1),X(:,2),40,floor(labels)+1,'.')
 
-
+igmm_colorSettings;
 for j=1:(max(labels)+1)
-    if (table(j).npoints > 0)
-    sigma = table(j).cholsigma*table(j).cholsigma';
+    if (table(j).npoints > 1)
+    sigma = table(j).cholsigma'*table(j).cholsigma;
+    %plot_gaussian_ellipsoid(table(j).mu(1:2),sigma(1:2,1:2),'-',[0.5 0.5 0.5],log(table(j).npoints)/5,2);
     plot_gaussian_ellipsoid(table(j).mu(1:2),sigma(1:2,1:2),'-',cc(j,:)/2,1,2);
+    at = (cov(X(labels==(j-1),1:2))+0.001*eye(2));
+    bet = mean(X(labels==(j-1),1:2));
+    plot_gaussian_ellipsoid(bet,at,'-',cc(j,:),1.1,1.5);
+    for i=1:10
+        nn = sum(labels==(j-1));
+        sampleCov=iwishrnd(at*nn+Psi(1:2,1:2)*m,nn+m);
+        sampleMean=mvnrnd((bet*nn + mu0(1:2)*k0)/(k0+nn),sampleCov/(k0+nn));
+        plot_gaussian_ellipsoid(sampleMean,sampleCov,'-',[0.7 0.7 0.7],0.5,0.5);
     end
-    
+    end
 end
+
 %axis([-2 2 -2 2])

@@ -13,7 +13,7 @@
 using namespace std;
 
 
-int MAX_SWEEP = 5;
+int MAX_SWEEP = 50;
 int BURNIN = 100;
 int SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
@@ -59,9 +59,13 @@ int main(int argc, char** argv)
 	
 	
 
+	generator.seed(time(NULL));
+
+
+
 	Vector labels = kmeans(ds);
 	
-	generator.seed(time(NULL));
+	
 	precomputeGammaLn(2 * n + 100*d);
 	Stut stt(priormean, priorvariance, T_eta);
 	loglik0 = stt.likelihood(ds.data);
@@ -70,7 +74,7 @@ int main(int argc, char** argv)
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
-	r.getInfo();
+
 	for (auto i = 0; i < MAX_SWEEP+1; i++)
 	{
 		if (i == MAX_SWEEP) // Last iteration is on tables created , and it is not collapsed. 
@@ -84,7 +88,7 @@ int main(int argc, char** argv)
 		r.samplePosteriors();
 		//system("pause");
 		
-		if (i % 100 == 0)
+		if (i % 20 == 0)
 		{
 			printf("\n\nITER  : %d\n\n", i);
 			printf("Tables : %d\n", r.tables.size());
@@ -95,10 +99,6 @@ int main(int argc, char** argv)
 		
 	}
 
-
-	printf("NTABLES : %d == %.3f", r.tables.size(), 1+r.labels.maximum());
-	if (r.tables.size() != 1 + r.labels.maximum())
-		printf("ERROR");
 
 	string s(result_dir);
 	ofstream restfile(s.append("_igmm.rest"), ios::out | ios::binary);

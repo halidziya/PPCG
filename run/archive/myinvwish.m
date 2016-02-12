@@ -9,9 +9,6 @@ function W=myinvwish(sigma,df)
             end
         end  
    end
-   
-   DI = inv(chol(sigma));
-   [Q,R] = qr(w*DI);
-   T = inv(R);
+   T = chol(sigma)'*inv(w);
    W = T*T';
 end
