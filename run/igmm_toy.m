@@ -28,7 +28,7 @@ m = d+3;
 mu0 = mean(X);
 k0=0.01;
 gam=1;
-s=2;
+s=5;
 Psi=(m-d-1)*eye(d)/s;
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 
