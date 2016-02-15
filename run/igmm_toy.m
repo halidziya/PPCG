@@ -1,5 +1,5 @@
 clear;
-load ..\data\toy\ToyData_I2GMM_journal_3rare_3normal_3D_final.mat
+load ..\data\toy\Toy.mat
 %Xorg = X;
 %X=[-1 -1; -0.99 -0.99; -1.01 -1.01; -1 -0.99;1 1; 0.99 0.99; 1.01 1.01; 1 0.99;-2 2;-2.01 2;];
 %X=X;
@@ -15,7 +15,7 @@ igmm_mkdir(folder);
 prefix = strcat(folder,'/','toy');
 
 
-num_sweeps = '2000';
+num_sweeps = '1000';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
@@ -24,11 +24,11 @@ fprintf(1,'\nIGMM is running...\n');
 
 
 d=size(X,2);
-m = d+2;
+m = d+3;
 mu0 = mean(X);
-k0=0.001;
+k0=0.01;
 gam=1;
-s=1;
+s=2;
 Psi=(m-d-1)*eye(d)/s;
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 

@@ -127,10 +127,14 @@ ostream& operator<<(ostream& os, Table& t)
 	os << t.datadist.mu;
 	os << t.datadist.cholsigma;
 	Matrix sscatter(d, d);
+	Vector ssum(d);
 	sscatter.zero();
+	ssum.zero();
 	for (auto i = 0; i < t.sum.size(); i++) {
 		sscatter = sscatter + t.scatter[i];
+		ssum = ssum + t.sum[i];
 	}
 	os << sscatter;
+	os << ssum;
 	return os;
 }

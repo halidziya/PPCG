@@ -4,7 +4,7 @@
 Vector kmeans(DataSet& ds)
 {
 	int k = d; // Our matrices are square in buffer
-	Matrix means(d, d); // This need to be modified , But buffer size is fixed so I am exploting that
+	Matrix means(d,d); // This need to be modified , But buffer size is fixed so I am exploting that
 	Vector counts(d);
 	Vector results(n);
 	ThreadPool tpool(thread::hardware_concurrency());

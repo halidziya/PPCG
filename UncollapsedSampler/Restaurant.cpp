@@ -220,7 +220,7 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 	}
 	
 	if (dataids.size()>1)
-	for (auto iter = 0; iter < 3;iter++){
+	for (auto iter = 0; iter < 10;iter++){
 		i = 0;
 	for (auto dataid : dataids) {
 		
@@ -249,9 +249,9 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 			double s1 = kappa + npoints;
 			Vector& diff = (mu0 - table.sum[0] / npoints);
 			Matrix& outer = (diff >> diff)*((npoints *kappa)/(s1));
-			table.likelihood[0] = table.npoints[0] * Stut((table.sum[0] + mu0*kappa) / (s1), (Psi + table.scatter[0] + outer) * ((s1 + 1) / (s1*(m+npoints-d+1))), m + npoints - d + 1).likelihood(v);
+			table.likelihood[0] = log(table.npoints[0]) + Stut((table.sum[0] + mu0*kappa) / (s1), (Psi + table.scatter[0] + outer) * ((s1 + 1) / (s1*(m+npoints-d+1))), m + npoints - d + 1).likelihood(v);
 		}
-		double newtable = gamma*loglik0[dataid];
+		double newtable = loglik0[dataid]+log(gamma);
 		
 
 		maxlikelihood = newtable;
@@ -299,17 +299,23 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 		}
 
 		i++; //Point index
+	
 	}
+	
 
-	for (auto iter = ctables.begin(); iter != ctables.end();)
-		if (iter->npoints[0] == 0)
+	for (auto biter = ctables.begin(); biter != ctables.end();)
+		if (biter->npoints[0] == 0)
 		{
-			iter = ctables.erase(iter);
+			biter = ctables.erase(biter);
 		}
 		else
-			iter++;
-			
+			biter++;
+
+
+	//printf("Iter %d Ctables : %d\n",iter, ctables.size());
 	}
+
+	
 
 	for (auto& table : ctables)
 		table.id = newtableid++;
@@ -321,7 +327,6 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 	}
 	
 	
-
 	return ctables;
 }
 

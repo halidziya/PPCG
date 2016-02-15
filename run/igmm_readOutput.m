@@ -23,4 +23,5 @@ function table=readTable(file)
         table.mu = readMat(file);
         table.cholsigma = readMat(file);
         table.scatter = readMat(file);
+        table.sum = readMat(file);
 end
