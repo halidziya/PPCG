@@ -26,7 +26,7 @@ for datai=1:length(files)
     mu0 = mean(X);
     k0=0.01;
     gam=1;
-    s=2;
+    s=100^(1/d);
     Psi=(m-d-1)*eye(d)/s;
 
     for iter=1:MAXITER
