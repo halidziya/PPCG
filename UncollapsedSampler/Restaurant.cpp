@@ -220,7 +220,7 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 	}
 	
 	if (dataids.size()>1)
-	for (auto iter = 0; iter < 10;iter++){
+	for (auto iter = 0; iter < 2;iter++){
 		i = 0;
 	for (auto dataid : dataids) {
 		
@@ -312,11 +312,11 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 			biter++;
 
 
-	//printf("Iter %d Ctables : %d\n",iter, ctables.size());
+	
 	}
 
 	
-
+	printf("Ctables : %d points : %d\n", ctables.size(), dataids.size());
 	for (auto& table : ctables)
 		table.id = newtableid++;
 

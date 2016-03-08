@@ -63,7 +63,9 @@ int main(int argc, char** argv)
 
 
 
-	Vector labels = kmeans(ds);
+	Vector labels(n);// = kmeans(ds);
+	labels.zero();
+
 	
 	
 	precomputeGammaLn(2 * n + 100*d);
@@ -71,6 +73,7 @@ int main(int argc, char** argv)
 	loglik0 = stt.likelihood(ds.data);
 	Restaurant r(ds);
 	r.createTables(labels);
+	printf("\nInitial tables : %d", r.tables.size());
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
@@ -91,7 +94,7 @@ int main(int argc, char** argv)
 		if (i % 20 == 0)
 		{
 			printf("\n\nITER  : %d\n\n", i);
-			printf("Tables : %d\n", r.tables.size());
+			printf("\nTables : %d\n", r.tables.size());
 			// r.getInfo();
 			flush(cout);
 		}
