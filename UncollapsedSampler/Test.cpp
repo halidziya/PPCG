@@ -32,4 +32,21 @@ scat = scat / 10000;
 scat.print();
 system("pause");
 
+
+
+Matrix corr(d,d);
+Vector sum(d);
+for (int i = 0; i < d; i++)
+for (int j = 0; j < d; j++)
+corr(j, i) = 1;
+Normal norm(v({ 1,1,1,1,1,1,1,1}), eye(d)+corr);
+sum.zero();
+for (int i = 0; i < 1000; i++)
+{
+sum = sum + norm.rnd();
+}
+(sum / 1000).print();
+
+
+
 }*/

@@ -2,10 +2,11 @@ experiments='experiments/';
 folder = strcat(experiments,'parallel');
 igmm_mkdir(folder);
 [files names] =  igmm_datasets('..\data'); % Traverse in folder
-MAXITER=1;
+MAXITER=2;
 elapsed_time = zeros(length(files),2,MAXITER);
 macf1        = zeros(length(files),2,MAXITER);
 micf1        = zeros(length(files),2,MAXITER);
+numtables        = zeros(length(files),2,MAXITER);
 
 addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian
 addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian\include
@@ -17,7 +18,7 @@ for datai=1:length(names)
     prefix = char(strcat(folder,'/',names(datai)));
     mkdir([prefix,'\plots\']);
     run(files{datai});
-    X=igmm_normalize(X,12);
+    X=igmm_normalize(X,50);
     
     num_sweeps = '2000';
     data=[prefix,'.matrix'];
@@ -30,20 +31,21 @@ for datai=1:length(names)
     mu0 = mean(X);
     k0=1;
     gam=1;
-    s=0.2;
-    Psi=eye(d)/s; %(m-d-1);
+    %s=1/d;
+    Psi=eye(d)*m;
     for iter=1:MAXITER
     igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
     cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
     tic;
     system(cmd);
     elapsed_time(datai,1,iter)=toc;
-    
-    [table labels]=igmm_readOutput([prefix '_igmm.rest']);
+    fprintf(1,'Reading...\n');
+    [table,labels]=igmm_readOutput([prefix '_igmm.rest']);
     f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
     
     macf1(datai,1,iter)=table2array(f1s(1,1));
     micf1(datai,1,iter)=table2array(f1s(1,2));
+   numtables(datai,1,iter) = length(table);
    
     subplot(1,2,1);
     cla;
@@ -61,10 +63,12 @@ for datai=1:length(names)
     
     tic;
     labels=run_dpgmm_subclusters(X', 1, false, 8, false, false, 1, 2000, 2000);
+    %labels=run_dpgmm_fsd(X',1,false,8,1,40,40);
     elapsed_time(datai,2,iter)=toc;
     f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
     macf1(datai,2,iter)=table2array(f1s(1,1));
     micf1(datai,2,iter)=table2array(f1s(1,2));
+    numtables(datai,2,iter) = length(unique(labels));
     subplot(1,2,2);
     scatter(X(:,1),X(:,2),40,labels,'.')
     title([ 'JChang Sampler: ' num2str(macf1(datai,2,iter))]);

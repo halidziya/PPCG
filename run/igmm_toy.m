@@ -7,8 +7,8 @@ load ..\data\toy\Toy.mat
 %load fisheriris;
 %X=meas;
 %X=igmm_normalize(X);
-d=2;
-X=[mvnrnd(ones(1,d),[1 0.8;0.8 1]/20,1000);mvnrnd(-0.1*ones(1,d),eye(d)/20,100);mvnrnd(-1.1*ones(1,d),eye(d)/20,50)];
+d=50;
+X=[mvnrnd(ones(1,d),eye(d)/20,1000);mvnrnd(-0.1*ones(1,d),eye(d)/20,100);mvnrnd(-1.1*ones(1,d),eye(d)/20,50)];
 %X=igmm_normalize(X);
 experiments='experiments/';
 folder = strcat(experiments,'toy');
@@ -16,21 +16,21 @@ igmm_mkdir(folder);
 prefix = strcat(folder,'/','toy');
 
 
-num_sweeps = '10000';
+num_sweeps = '10';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
-cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
+cmd = ['igmm2.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
 fprintf(1,'\nIGMM is running...\n');
 
 
 d=size(X,2);
-m = d+2;
+m = d+3;
 mu0 = mean(X);
-k0=0.01;
+k0=1;
 gam=1;
-s=2;
-Psi=(m-d-1)*eye(d)/s;
+s=1;
+Psi=eye(d)/s;
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 
 tic;

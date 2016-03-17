@@ -21,6 +21,11 @@ void Table::calculatePosteriors()
 		sscatter = sscatter + scatter[i];
 	}
 
+	/*for (int d = 0; d<D; d++)
+		theta[d] = (thetah[d] * kappah + t[d]) / kappa;
+	for (int d = 0; d<D2; d++)
+		Delta[d] = (Deltah[d] * nuh + T[d] + kappah*thetah[d%D] * thetah[d / D] - kappa*theta[d%D] * theta[d / D]) / nu;
+		*/
 		totalpoints = totalpoints;
 		double divider = 1.0/(kappa+ totalpoints);
 		Vector& mean = ssum  / totalpoints;
@@ -32,7 +37,6 @@ void Table::calculatePosteriors()
 		//for (auto i = 0; i < 100; i++)
 			//sscatter = sscatter + posteriorcov.rnd();
 		Matrix& sigma = posteriorcov.rnd();
-		
 		posteriormean = Normal((ssum + mu0*kappa)*divider, sigma*divider);
 		datadist = Normal(posteriormean.rnd(), sigma);
 

@@ -10,7 +10,7 @@ extern Vector loglik0;
 class Restaurant : public Task{
 public:
 	DataSet& ds;
-	Vector labels;
+	vector<list<Table>::iterator> labels;
 	list<Table> tables;
 	vector<list<int>> collapsedList;
 	void run(int id);

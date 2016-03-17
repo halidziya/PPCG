@@ -22,7 +22,7 @@ DataSet::DataSet(char* datafile,char* priorfile,char* configfile)
 	kappa  = conf(0)[2];
 	gamma  = conf(0)[3];
 
-	int nthd = thread::hardware_concurrency();
+	int nthd =  thread::hardware_concurrency();
 	init_buffer(nthd, d);
 	printf("Threads %d\n", nthd);
 

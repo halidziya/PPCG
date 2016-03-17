@@ -2,6 +2,9 @@
 
 
 Vector loglik0;
+list<Table>::iterator nulliter;
+list<Table> nullist;
+
 void Restaurant::run(int id)
 {
 	
@@ -21,18 +24,21 @@ void Restaurant::run(int id)
 	for ( i = 0; i < chunk.r; i++)
 	{
 		dataid = taskid*chunksize + i;
+		if (labels[dataid] == nulliter) continue; // Collapsed part, out of uncollapsed part
 		Vector& data = chunk(i);
 		j = 0;
+
 		for (auto& table : tables)
 		{
 			//printf("%.4f\n", tables[j].loglikelihood(data(i),-5));
 			table.likelihood[taskid] = table.loglikelihood(data)+log(sticks[j]); //Log likelihoods sum
+			//printf("%.3f\n", table.likelihood[taskid]);
 			j++;
 		}
 		newtablelikelihood = loglik0[dataid] + log(sticks[j]);
 		//printf("\n==\n");
 
-		maxlikelihood = tables.begin()->likelihood[taskid];
+		maxlikelihood = newtablelikelihood;
 		for (auto& table : tables)
 		{
 			if (table.likelihood[taskid] > maxlikelihood)
@@ -55,35 +61,39 @@ void Restaurant::run(int id)
 
 		if (collapsed) {
 			// New table
-			newtablelikelihood = newtablelikelihood - maxlikelihood;
-			sum += exp(newtablelikelihood);
+			newtablelikelihood = exp(newtablelikelihood - maxlikelihood);
+			sum += newtablelikelihood;
 		}
-
 		val = urand()*sum;
 		j = 0;
 		list<Table>::iterator lasttable=tables.end();
-		for (auto table = tables.begin(); table != tables.end();table++)
-		{
-			if (table->likelihood[taskid] >= val)
-			{
-				lasttable = table;
-				break; // Find it
-			}
-			val -= (table->likelihood[taskid]);
-			j++;
-		}
+		labels[dataid] = tables.begin();
+		if (collapsed) {
 
-		if (collapsed && (lasttable == tables.end()))
-		{
-			labels[dataid] = -1; // Not yet assigned
-			collapsedList[taskid].push_back(dataid);
+			if (newtablelikelihood > val) {
+				labels[dataid] = nulliter;
+				collapsedList[taskid].push_back(dataid);
+			}
+			else
+				val = val - newtablelikelihood;
 		}
-		else
-		{
+		if (labels[dataid] != nulliter) {
+			for (auto table = tables.begin(); table != tables.end(); table++)
+			{
+				if (table->likelihood[taskid] >= val)
+				{
+					lasttable = table;
+					break; // Find it
+				}
+				val -= (table->likelihood[taskid]);
+				j++;
+			}
+
 			lasttable->addPoint(data, taskid);
-			labels[dataid] = j;
+			labels[dataid] = lasttable;
 			//printf("Point : %d in %d with %d -> %d\n",dataid, taskid,i, j);
 		}
+		
 	}
 
 }
@@ -105,17 +115,20 @@ void Restaurant::samplePosteriors()
 		//printf("\n|%d| ", t.totalpoints);
 	}
 
+	for (auto iter = tables.begin(); iter != tables.end();)
+		if (iter->totalpoints == 0)
+		{
+			iter = tables.erase(iter);
+		}
+		else
+			iter++;
 
+	int id = 0;
 
+	
 
 	if (collapsed) {
-		for (auto iter = tables.begin(); iter != tables.end();)
-			if (iter->totalpoints == 0)
-			{
-				iter = tables.erase(iter);
-			}
-			else
-				iter++;
+
 
 		list<int> collection;
 		for (auto& l : collapsedList)
@@ -123,11 +136,23 @@ void Restaurant::samplePosteriors()
 
 		if (collection.size() > 0) { // New tables created
 			list<Table> newtables = sampleCollapsed(collection);
-			tables.insert(tables.end(), newtables.begin(), newtables.end());
+			vector<list<Table>::iterator> iteratorcopy(newtables.size());
+			list<Table>::iterator second  = tables.insert(tables.end(), newtables.begin(), newtables.end());
+			int i = 0;
+			for (auto it = newtables.begin(); it != newtables.end(); it++, i++)
+			{
+				iteratorcopy[i] = second++;
+				it->id = i;
+			}
+			for (auto i : collection)
+				labels[i] = iteratorcopy[labels[i]->id];
 		}
 		
 	}
 
+	for (auto iter = tables.begin(); iter != tables.end(); iter++) // Re-id
+		iter->id = id++;
+	nulliter = tables.end();
 
 	Vector alpha(tables.size() + 1, 1, 0);
 	int  i = 0;
@@ -159,16 +184,18 @@ void Restaurant::createTables(Vector& labels)
 
 	for (auto i = 0; i < labels.n; i++) {
 		tablelist[labels[i]]->caddPoint(ds.data(i));
-		this->labels[i] = labels[i];
+		this->labels[i] = tablelist[labels[i]];
 	}
 	
 	int  i = 0;
 	for (auto& t : tables)
 	{
 		t.calculatePosteriors();
+		t.id = i;
 		alpha[i] += t.totalpoints;
 		i++;
 	}
+	nulliter = tables.end();
 	alpha[i] = gamma;
 	collapsedList.resize(thread::hardware_concurrency());
 	tabledist = Dirichlet(alpha);
@@ -201,34 +228,29 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 	list<Table> ctables(1); //First table
 	double sum, maxlikelihood,val;
 	int i, j;
-	//for (auto iter = 0; iter < 5; iter++) // 5 inner collapsed iter
-	//{
-	//
-	//}
-	int newtableid = tables.size();
 	list<Table>::iterator it = ctables.begin();
 	vector<list<Table>::iterator> collapsedLabels;
 	it->resetStats();
 	collapsedLabels.resize(dataids.size());
-	// Initially all in same table
-	i = 0;
-	for (auto dataid : dataids) {
+	// Initially all in different table
+	//for (auto dataid : dataids) {
 		
-		it->caddPoint(ds.data(dataid)); // Only 1 thread
-		labels[dataid] = newtableid;
-		collapsedLabels[i++] = it;
-	}
+	//	it->caddPoint(ds.data(dataid)); // Only 1 thread
+	//	collapsedLabels[i++] = it;
+	//}
+	collapsedLabels[0] = it;
+	it->caddPoint(ds.data(*(dataids.begin())));
 	
 	if (dataids.size()>1)
-	for (auto iter = 0; iter < 2;iter++){
+	for (auto iter = 0; iter < 1;iter++){
 		i = 0;
 	for (auto dataid : dataids) {
-		
+		if (i == 0) { i = 1; continue; } // First point added already
 		Vector& v = ds.data(dataid);
-		collapsedLabels[i]->cremovePoint(v);
+		//collapsedLabels[i]->cremovePoint(v);
 		
-		if (collapsedLabels[i]->npoints[0] == 0)
-			ctables.erase(collapsedLabels[i]);
+		//if (collapsedLabels[i]->npoints[0] == 0)
+			//ctables.erase(collapsedLabels[i]);
 	/*		void calculateDist()
 	{
 		double s1 = Global::kappa + npoints;
@@ -247,7 +269,7 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 		{
 			int npoints = table.npoints[0];
 			double s1 = kappa + npoints;
-			Vector& diff = (mu0 - table.sum[0] / npoints);
+			Vector& diff = (mu0 - (table.sum[0] / npoints));
 			Matrix& outer = (diff >> diff)*((npoints *kappa)/(s1));
 			table.likelihood[0] = log(table.npoints[0]) + Stut((table.sum[0] + mu0*kappa) / (s1), (Psi + table.scatter[0] + outer) * ((s1 + 1) / (s1*(m+npoints-d+1))), m + npoints - d + 1).likelihood(v);
 		}
@@ -317,13 +339,17 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 
 	
 	printf("Ctables : %d points : %d\n", ctables.size(), dataids.size());
+	int newtableid = tables.size();
 	for (auto& table : ctables)
+	{
 		table.id = newtableid++;
+		table.totalpoints = table.npoints[0];
+	}
 
 	i = 0;
 	for (auto dataid : dataids)
 	{
-		labels[dataid] = collapsedLabels[i++]->id;
+		labels[dataid] = collapsedLabels[i++];
 	}
 	
 	
@@ -336,6 +362,9 @@ ostream & operator<<(ostream & os, Restaurant & r)
 	os.write((char*)&a, sizeof(int));
 	for (Table& table : r.tables)
 		os << table;
-	os << r.labels;
+	Vector labels(n);
+	for (auto i = 0; i < n; i++)
+		labels[i] = r.labels[i]->id;
+	os << labels;
 	return os;
 }

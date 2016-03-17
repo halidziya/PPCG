@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>run\experiments\all2\crism.matrix run\experiments\all2\crism_prior.matrix run\experiments\all2\crism_params.matrix</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>run\experiments\toy\toy.matrix run\experiments\toy\toy_prior.matrix run\experiments\toy\toy_params.matrix 10</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>run\experiments\all2\crism.matrix run\experiments\all2\crism_prior.matrix run\experiments\all2\crism_params.matrix</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>run\experiments\toy\toy.matrix run\experiments\toy\toy_prior.matrix run\experiments\toy\toy_params.matrix 20</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..</LocalDebuggerWorkingDirectory>
   </PropertyGroup>

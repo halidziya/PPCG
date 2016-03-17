@@ -14,12 +14,11 @@ cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps , ' ',prefix ,''];
 fprintf(1,'\nIGMM is running...\n');
 
 d=size(X,2);
-m = d+2;
+m = d+3;
 mu0 = mean(X);
-k0=0.01;
+k0=1;
 gam=1;
-s=1;
-Psi=(m-d-1)*eye(d)/s;
+Psi=eye(d);
 
 igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
 

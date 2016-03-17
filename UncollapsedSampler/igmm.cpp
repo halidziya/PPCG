@@ -60,35 +60,31 @@ int main(int argc, char** argv)
 	
 
 	generator.seed(time(NULL));
-
+	srand(time(NULL));
 
 
 	Vector labels(n);// = kmeans(ds);
 	labels.zero();
 
-	
-	
 	precomputeGammaLn(2 * n + 100*d);
 	Stut stt(priormean, priorvariance, T_eta);
 	loglik0 = stt.likelihood(ds.data);
 	Restaurant r(ds);
 	r.createTables(labels);
-	printf("\nInitial tables : %d", r.tables.size());
+	printf("\nInitial tables : %d\n", r.tables.size());
 	ThreadPool tpool(thread::hardware_concurrency());
 
 
 
-	for (auto i = 0; i < MAX_SWEEP+1; i++)
+	for (auto i = 0; i < MAX_SWEEP; i++)
 	{
-		if (i == MAX_SWEEP) // Last iteration is on tables created , and it is not collapsed. 
-			r.collapsed = 0;
-		r.resetStats();
-		for (auto i = 0; i < tpool.numthreads; i++) {
-			tpool.submit(r);
-			
-		}
-		tpool.waitAll();
-		r.samplePosteriors();
+
+			r.resetStats();
+			for (auto i = 0; i < tpool.numthreads; i++) {
+				tpool.submit(r);
+			}
+			tpool.waitAll();
+			r.samplePosteriors();
 		//system("pause");
 		
 		if (i % 20 == 0)

@@ -2,26 +2,26 @@
 c:\users\hzyereba\desktop\fastmat\util.h(6): warning C4005: 'INFINITY': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(78): note: see previous definition of 'INFINITY'
 c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(62): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(76): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(76): note: consider using '%zd' in the format string
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(97): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(97): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(63): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(74): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(74): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(93): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\igmm.cpp(93): note: consider using '%zd' in the format string
+  Table.cpp
   Restaurant.cpp
 c:\users\hzyereba\desktop\fastmat\util.h(6): warning C4005: 'INFINITY': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(78): note: see previous definition of 'INFINITY'
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(132): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(149): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(161): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(175): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(208): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(315): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
-  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(315): note: consider using '%zd' in the format string
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(315): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'unsigned __int64'
-  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(315): note: consider using '%zd' in the format string
-c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(335): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Algorithms.cpp
-c:\users\hzyereba\desktop\fastmat\util.h(6): warning C4005: 'INFINITY': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(78): note: see previous definition of 'INFINITY'
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(156): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(173): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(185): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(186): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(201): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(341): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(340): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(340): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(340): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(340): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(360): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\$\UncollapsedSampler.exe
   UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\UncollapsedSampler\$\UncollapsedSampler.pdb (Partial PDB)
