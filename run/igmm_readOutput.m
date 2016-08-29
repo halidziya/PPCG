@@ -14,7 +14,7 @@ function mat=readMat(file)
     r = fread(file,1,'int');
     d = fread(file,1,'int');
     mat=fread(file,r*d,'double');
-    mat = reshape(mat,r,d);
+    mat = reshape(mat,d,r);
     % triangle = fread(file,1,'int');
 end
 
