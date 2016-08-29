@@ -86,7 +86,7 @@ void KmeansTask::run(int id)
 	counts.zero();
 	for (auto i = 0; i < n; i++)
 	{
-		mindist = my_infinity();
+		mindist = INFINITY;
 		for (auto j = 0; j < k; j++)
 		{
 			dist = (data(i) - means(j)).norm();
