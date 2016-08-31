@@ -100,7 +100,7 @@ void Table::caddPoint(Vector & v)
 	this->npoints[threadid] += 1;
 	Vector& sampleMean = sum[threadid] / (npoints[threadid]-1);
 	if (npoints[threadid] == 1)
-		sampleMean <= mu0;
+		sampleMean <<= mu0;
 	Vector& diff = (v - sampleMean);
 	this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*((npoints[threadid] -1.0)/ npoints[threadid]);
 	this->sum[threadid] = this->sum[threadid] + v;

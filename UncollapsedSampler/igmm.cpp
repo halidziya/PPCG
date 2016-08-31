@@ -159,6 +159,4 @@ int main(int argc, char** argv)
 
 	likefile << likelihoods;
 	likefile.close();
-
-	system("pause");
 }
