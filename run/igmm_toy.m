@@ -1,5 +1,5 @@
 clear;
-load ..\data\toy\Toy.mat
+%load ..\data\toy\Toy.mat
 %Xorg = X;
 %X=[-1 -1; -0.99 -0.99; -1.01 -1.01; -1 -0.99;1 1; 0.99 0.99; 1.01 1.01; 1 0.99;-2 2;-2.01 2;];
 %X=X;
@@ -7,7 +7,7 @@ load ..\data\toy\Toy.mat
 %load fisheriris;
 %X=meas;
 %X=igmm_normalize(X);
-d=50;
+d=2;
 X=[mvnrnd(ones(1,d),eye(d)/20,1000);mvnrnd(-0.1*ones(1,d),eye(d)/20,100);mvnrnd(-1.1*ones(1,d),eye(d)/20,50)];
 %X=igmm_normalize(X);
 experiments='experiments/';
@@ -16,11 +16,11 @@ igmm_mkdir(folder);
 prefix = strcat(folder,'/','toy');
 
 
-num_sweeps = '10';
+num_sweeps = '100.';
 data=[prefix,'.matrix'];
 prior=[prefix,'_prior.matrix'];
 params=[prefix,'_params.matrix'];
-cmd = ['igmm2.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
+cmd = ['igmm.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
 fprintf(1,'\nIGMM is running...\n');
 
 

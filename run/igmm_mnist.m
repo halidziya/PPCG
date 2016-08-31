@@ -1,4 +1,4 @@
-load('C:\Users\hzyereba\Desktop\UncollapsedSampler\data\mnist\mnist_all.mat')
+load('C:\Users\halidziya\Desktop\I2GMM\UncollapsedSampler\run\data\mnist\mnist_all.mat')
 X=[train0; train1; train2; train3; train4; train5; train6; train7; train8; train9];
 Y=[ones(size(train0,1),1); 2*ones(size(train1,1),1); 3*ones(size(train2,1),1); 4*ones(size(train3,1),1); 5*ones(size(train4,1),1); 6*ones(size(train5,1),1); 7*ones(size(train6,1),1); 8*ones(size(train7,1),1); 9*ones(size(train8,1),1); 10*ones(size(train9,1),1) ];
 
