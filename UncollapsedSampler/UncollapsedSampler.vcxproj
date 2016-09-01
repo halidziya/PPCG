@@ -72,7 +72,7 @@
     <OutDir>$(SolutionDir)$</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>igmm</TargetName>
+    <TargetName>ppcg</TargetName>
     <OutDir>$(SolutionDir)run\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

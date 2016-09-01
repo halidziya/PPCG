@@ -3,7 +3,7 @@
 #include "Table.h"
 #include "ThreadPool.h"
 #include "Dirichlet.h"
-#include <atomic>
+
 extern Vector loglik0;
 
 
