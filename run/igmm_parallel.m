@@ -2,7 +2,7 @@ experiments='experiments/';
 folder = strcat(experiments,'parallel');
 igmm_mkdir(folder);
 [files names] =  igmm_datasets('..\data'); % Traverse in folder
-MAXITER=2;
+MAXITER=10;
 elapsed_time = zeros(length(files),3,MAXITER);
 macf1        = zeros(length(files),3,MAXITER);
 micf1        = zeros(length(files),3,MAXITER);
@@ -140,11 +140,13 @@ for datai=1:length(names)
     end
     subplot(1,1,1);
     
-    plot([mean(likelihood,2)],'linewidth',3);hold on;
+
+    plot([mean(likelihood,2)],'k:','linewidth',3);hold on;
     plot([mean(slikelihood,2)],'linewidth',3);hold on;
     plot([mean(changlikelihood(1:size(likelihood,1),:),2)],'r--','linewidth',3);hold off;
+
     %title('Likelihoods','FontSize',18);
-    h=legend(['PPCG';'SLC ';'SUBC'],'Location','southeast');
+    h=legend(['PPCG';'PSS ';'SUBC'],'Location','southeast');
     set(h,'FontSize',24);
     set(gca,'FontSize',18);
     colormap('lines');
