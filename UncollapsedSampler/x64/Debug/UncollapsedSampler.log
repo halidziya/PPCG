@@ -1,7 +1,4 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  Algorithms.cpp
-  Generating Code...
-  Compiling...
   igmm.cpp
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(75): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(76): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
@@ -10,6 +7,8 @@ c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(
   c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(89): note: consider using '%zd' in the format string
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(109): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
   c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(109): note: consider using '%zd' in the format string
+  Generating Code...
+  Compiling...
   Table.cpp
   Restaurant.cpp
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(157): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
@@ -26,6 +25,7 @@ c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restauran
   DataSet.cpp
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\dataset.cpp(21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\dataset.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Algorithms.cpp
   Generating Code...
   UncollapsedSampler.vcxproj -> C:\Users\halidziya\Desktop\I2GMM\UncollapsedSampler\$\UncollapsedSampler.exe
   UncollapsedSampler.vcxproj -> C:\Users\halidziya\Desktop\I2GMM\UncollapsedSampler\$\UncollapsedSampler.pdb (Partial PDB)
