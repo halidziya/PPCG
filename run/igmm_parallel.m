@@ -9,9 +9,9 @@ micf1        = zeros(length(files),3,MAXITER);
 numtables        = zeros(length(files),3,MAXITER);
 effectiven        = zeros(length(files),3,MAXITER);
 
-addpath C:\Users\hzyereba\Desktop\JChang\Gaussian
-addpath C:\Users\hzyereba\Desktop\JChangGaussian\include
-addpath C:\Users\hzyereba\Desktop\JChangcommon
+addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian
+addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian\include
+addpath C:\Users\hzyereba\Desktop\JChang\JChang\common
 
 colormap(distinguishable_colors(25));
 likelihood=[];
