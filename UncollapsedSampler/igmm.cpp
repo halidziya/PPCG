@@ -13,8 +13,8 @@
 using namespace std;
 
 
-int MAX_SWEEP = 500;
-int BURNIN = 300;
+int MAX_SWEEP = 1000;
+int BURNIN = 800;
 int STEP = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
 
@@ -22,7 +22,7 @@ char* result_dir = "";
 double gammalnd(int x) // Actually works on x/2 
 {
 	double res = 0;
-	for (auto i = 0; i < d; i++)
+	for (auto i = 0; i < d; i++)  
 	{
 		res += gl_pc[x - i]; 
 	}
