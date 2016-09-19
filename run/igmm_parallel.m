@@ -3,11 +3,11 @@ folder = strcat(experiments,'parallel');
 igmm_mkdir(folder);
 [files names] =  igmm_datasets('..\data'); % Traverse in folder
 MAXITER=10;
-elapsed_time = zeros(length(files),3,MAXITER);
-macf1        = zeros(length(files),3,MAXITER);
-micf1        = zeros(length(files),3,MAXITER);
-numtables        = zeros(length(files),3,MAXITER);
-effectiven        = zeros(length(files),3,MAXITER);
+elapsed_time = zeros(length(files),4,MAXITER);
+macf1        = zeros(length(files),4,MAXITER);
+micf1        = zeros(length(files),4,MAXITER);
+numtables        = zeros(length(files),4,MAXITER);
+effectiven        = zeros(length(files),4,MAXITER);
 
 addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian
 addpath C:\Users\hzyereba\Desktop\JChang\JChang\Gaussian\include
@@ -36,7 +36,7 @@ for datai=1:length(names)
     k0=1;
     gam=1;
     %s=1/d;
-    Psi=m*eye(d);
+    Psi=eye(d)*m;
     for iter=1:MAXITER
     igmm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam);
     cmd = ['ppcg.exe ',data,' ',prior,' ',params,' ',num_sweeps  , ' ',prefix];
@@ -62,8 +62,17 @@ for datai=1:length(names)
     title([ 'IGMM HeteroCollapsed Sampler: ' num2str(macf1(datai,1,iter))]);
     
     
-    
-    cmd = ['dpsl.exe ',data];
+    data=[prefix,'.matrix'];
+    prior=[prefix,'_prior.matrix'];
+    params=[prefix,'_params.matrix'];
+    psip=[prefix,'_psi.matrix'];
+    meanp=[prefix,'_mean.matrix'];
+    params=[prefix,'_params.matrix'];
+    NITER = '500';
+    BURNIN = '300';
+    NSAMPLE = '10';
+    slice_createBinaryFiles(prefix,X,Psi,mu0,m,k0,1);
+    cmd = ['dpsl.exe ',data,' ',meanp,' ',psip,' ',params,' ',NITER,' ',BURNIN,' ',NSAMPLE];
     tic;
     system(cmd);
     elapsed_time(datai,3,iter)=toc;
@@ -110,33 +119,35 @@ for datai=1:length(names)
     
     
     
-%     burn_in = '300';
-%     step = '20';
-%     dpm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam,1);
-%     cmd = ['dpm64.exe ',data,' ',prior,' ',params,' ',num_sweeps,' ', burn_in,' ',prefix,' ',step];
-%     fprintf(1,'\nDPGMM is running...\n');
-%     tic;
-%     system(cmd);
-%     elapsed_time(datai,3,iter)=toc;
-% 
-%     [tables customers klabels]=dpm_readOutput(prefix);
-%     labels = align_labels(klabels);
-%     f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
-%     macf1(datai,3,iter)=table2array(f1s(1,1));
-%     micf1(datai,3,iter)=table2array(f1s(1,2));
-%     numtables(datai,3,iter) = length(unique(labels));
-%     
-%     subplot(2,2,3);
-%     scatter(X(:,1),X(:,2),40,labels,'.')
-%     title([ 'Collapsed Sampler: ' num2str(macf1(datai,3,iter))]);
-    
+    burn_in = '300';
+    step = '20';
+    dpm_createBinaryFiles(prefix,X,Psi,mu0,m,k0,gam,1);
+    cmd = ['dpm64.exe ',data,' ',prior,' ',params,' ',num_sweeps,' ', burn_in,' ',prefix,' ',step];
+    fprintf(1,'\nDPGMM is running...\n');
+    tic;
+    system(cmd);
+    elapsed_time(datai,4,iter)=toc;
+
+    [tables customers klabels]=dpm_readOutput(prefix);
+    labels = align_labels(klabels);
+    f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
+    macf1(datai,4,iter)=table2array(f1s(1,1));
+    micf1(datai,4,iter)=table2array(f1s(1,2));
+    numtables(datai,4,iter) = length(unique(labels));
+    p=histc(labels,unique(labels))/length(labels);
+    effectiven(datai,4,iter) = exp(-sum(p.*log(p)));
     
     subplot(2,2,4);
-    plot([likelihood(:,iter) slikelihood(:,iter) changlikelihood(1:size(likelihood,1),iter)],'linewidth',2);
-    title('Likelihoods');
-    legend(['hetero';'slice ';'jchang'],'Location','southeast');
-    colormap('lines');
-    print(cell2mat(strcat(prefix,'\plots\',names(datai),'_',num2str(iter))),'-depsc');
+    scatter(X(:,1),X(:,2),40,labels,'.')
+    title([ 'Collapsed Sampler: ' num2str(macf1(datai,4,iter))]);
+    
+    
+    %subplot(2,2,4);
+    %plot([likelihood(:,iter) slikelihood(:,iter) changlikelihood(1:size(likelihood,1),iter)],'linewidth',2);
+    %title('Likelihoods');
+    %legend(['hetero';'slice ';'jchang'],'Location','southeast');
+    %colormap('lines');
+    %print(cell2mat(strcat(prefix,'\plots\',names(datai),'_',num2str(iter))),'-depsc');
     end
     subplot(1,1,1);
     

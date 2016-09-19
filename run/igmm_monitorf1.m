@@ -18,24 +18,26 @@ likelihoods=[];
 elapsedtime = [];
 %% Generation
 for iter=1:10;
-for D=2:20;
-N1 = 10;
-N2 = 10000;
-N3 = 500;
-S  = 1;
-d1 = mvnrnd(zeros(1,D),eye(D,D)/S,N1);
-d2 = mvnrnd(10*ones(1,D)/sqrt(D),eye(D,D)/S,N2);
-d3 = mvnrnd(-15*ones(1,D)/sqrt(D),eye(D,D)/S,N3);
-X = [d1;d2;d3];
-Y = [ones(N1,1);2*ones(N2,1);3*ones(N3,1)];
-subplot(2,2,1);
-scatter(X(:,1),X(:,2),4,Y);
+%for D=2:25;
+% N1 = 10;
+% N2 = 10000;
+% N3 = 500;
+% S  = 1;
+% d1 = mvnrnd(zeros(1,D),eye(D,D)/S,N1);
+% d2 = mvnrnd(10*ones(1,D)/sqrt(D),eye(D,D)/S,N2);
+% d3 = mvnrnd(-15*ones(1,D)/sqrt(D),eye(D,D)/S,N3);
+% X = [d1;d2;d3];
+% Y = [ones(N1,1);2*ones(N2,1);3*ones(N3,1)];
+% subplot(2,2,1);
+% scatter(X(:,1),X(:,2),4,Y);
 
-
+load('C:\Users\hzyereba\Desktop\UncollapsedSampler\data\rare\rare_class.mat')
+X=igmm_normalize(X);
+D = size(X,2);
 %% Inference 
 mu0 = mean(X,1);
 m   = D+3;
-Psi = eye(D)*2;
+Psi = eye(D);
 k0  = 1;
 gamma = 1;
 
@@ -44,6 +46,7 @@ data=[prefix,'toy.matrix'];
 prior=[prefix,'toy_prior.matrix'];
 params=[prefix,'toy_params.matrix'];
 psip=[prefix,'toy_psi.matrix'];
+meanp=[prefix,'toy_mean.matrix'];
 params=[prefix,'toy_params.matrix'];
 NITER = '1000';
 BURNIN = '800';
@@ -109,7 +112,7 @@ scatter(X(:,1),X(:,2),40,labels,'.')
 title([ 'JChang Sampler: ' num2str(macf1(D,method,iter))]);
    
 drawnow;
-end
+%end
 end
 
 plot(squeeze(mean((likelihoods(2,:,:,:)),3))')

@@ -1,4 +1,4 @@
-function tbl=evaluationTable(classes,clusters)
+function [tbl,maxF]=evaluationTable(classes,clusters)
 ucla=unique(classes);
 uclu=unique(clusters);
 nclu=length(uclu);
@@ -40,6 +40,7 @@ micF1=sum((sum(A,2)/sum(sum(A))).*maxF);
 macF1=mean(maxF);
 
 tbl = table(macF1,micF1,ari);
+
 end
 
 

@@ -13,8 +13,8 @@
 using namespace std;
 
 
-int MAX_SWEEP = 1000;
-int BURNIN = 800;
+int MAX_SWEEP = 500;
+int BURNIN = 300;
 int STEP = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
 
