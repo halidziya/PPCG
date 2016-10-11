@@ -1,7 +1,7 @@
 experiments='experiments/';
 folder = strcat(experiments,'parallel');
 igmm_mkdir(folder);
-[files names] =  igmm_datasets('..\data'); % Traverse in folder
+[files names] =  igmm_datasets('..\..\data'); % Traverse in folder
 MAXITER=10;
 elapsed_time = zeros(length(files),4,MAXITER);
 macf1        = zeros(length(files),4,MAXITER);
@@ -100,23 +100,23 @@ for datai=1:length(names)
 %         end
 %         end
     
-
-    tic;
-    [labels,E]=run_dpgmm_subclusters(X', 10, false, 8, false, false, 1, 500, 500);
-    labels = align_labels(labels);
-    p=histc(labels,unique(labels))/length(labels);
-    effectiven(datai,2,iter) = exp(-sum(p.*log(p)));
-    %labels=run_dpgmm_fsd(X',1,false,8,1,40,40);
-    elapsed_time(datai,2,iter)=toc;
-    f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
-    macf1(datai,2,iter)=table2array(f1s(1,1));
-    micf1(datai,2,iter)=table2array(f1s(1,2));
-    numtables(datai,2,iter) = length(unique(labels));
-    changlikelihood(:,iter)=E;
-    subplot(2,2,2);
-    scatter(X(:,1),X(:,2),40,labels,'.')
-    title([ 'JChang Sampler: ' num2str(macf1(datai,2,iter))]);
-    
+% 
+%     tic;
+%     [labels,E]=run_dpgmm_subclusters(X', 10, false, 8, false, false, 1, 500, 500);
+%     labels = align_labels(labels);
+%     p=histc(labels,unique(labels))/length(labels);
+%     effectiven(datai,2,iter) = exp(-sum(p.*log(p)));
+%     %labels=run_dpgmm_fsd(X',1,false,8,1,40,40);
+%     elapsed_time(datai,2,iter)=toc;
+%     f1s=evaluationTable(Y(Y~=0),labels(Y~=0));
+%     macf1(datai,2,iter)=table2array(f1s(1,1));
+%     micf1(datai,2,iter)=table2array(f1s(1,2));
+%     numtables(datai,2,iter) = length(unique(labels));
+%     changlikelihood(:,iter)=E;
+%     subplot(2,2,2);
+%     scatter(X(:,1),X(:,2),40,labels,'.')
+%     title([ 'JChang Sampler: ' num2str(macf1(datai,2,iter))]);
+%     
     
     
     burn_in = '300';
@@ -154,7 +154,7 @@ for datai=1:length(names)
 
     plot([mean(likelihood,2)],'k:','linewidth',3);hold on;
     plot([mean(slikelihood,2)],'linewidth',3);hold on;
-    plot([mean(changlikelihood(1:size(likelihood,1),:),2)],'r--','linewidth',3);hold off;
+    %plot([mean(changlikelihood(1:size(likelihood,1),:),2)],'r--','linewidth',3);hold off;
 
     %title('Likelihoods','FontSize',18);
     h=legend(['PPCG';'PSS ';'SUBC'],'Location','southeast');

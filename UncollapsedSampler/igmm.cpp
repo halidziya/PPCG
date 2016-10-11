@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	//if (argc>7)
 	//	SAMPLE = atoi(argv[7]);
 
-	step();
+	
 	
 	string ss(result_dir);
 	printf("Reading...\n");
@@ -92,6 +92,8 @@ int main(int argc, char** argv)
 	int nlabelsample = ((MAX_SWEEP - BURNIN) / STEP);
 	Matrix sampledLabels(nlabelsample,n);
 	Vector likelihoods(MAX_SWEEP);
+	PILL_DEBUG;
+	step();
 	for (auto iter = 0; iter < MAX_SWEEP; iter++)
 	{
 
@@ -141,7 +143,8 @@ int main(int argc, char** argv)
 	
 
 
-
+	step();
+	
 	string s(result_dir);
 	ofstream restfile(s.append("_igmm.rest"), ios::out | ios::binary);
 

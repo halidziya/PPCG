@@ -1,31 +1,5 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  igmm.cpp
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(75): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(76): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(137): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(89): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(89): note: consider using '%zd' in the format string
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(109): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\igmm.cpp(109): note: consider using '%zd' in the format string
-  Generating Code...
-  Compiling...
-  Table.cpp
-  Restaurant.cpp
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(157): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(174): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(186): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(187): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(202): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(342): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(341): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
-  c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(341): note: consider using '%zd' in the format string
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(341): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
-  c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(341): note: consider using '%zd' in the format string
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\restaurant.cpp(361): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  DataSet.cpp
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\dataset.cpp(21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\halidziya\desktop\i2gmm\uncollapsedsampler\uncollapsedsampler\dataset.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  Algorithms.cpp
-  Generating Code...
-  UncollapsedSampler.vcxproj -> C:\Users\halidziya\Desktop\I2GMM\UncollapsedSampler\$\UncollapsedSampler.exe
-  UncollapsedSampler.vcxproj -> C:\Users\halidziya\Desktop\I2GMM\UncollapsedSampler\$\UncollapsedSampler.pdb (Partial PDB)
+ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' does not match value '2' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
+ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' does not match value 'MTd_StaticDebug' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
+ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' does not match value '2' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
+ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' does not match value 'MTd_StaticDebug' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
