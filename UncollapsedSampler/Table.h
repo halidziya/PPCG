@@ -1,6 +1,6 @@
 #pragma once
-#include "Normal.h"
-#include "IWishart.h"
+#include "FastMat.h"
+#include "GMMBase.h"
 
 
 

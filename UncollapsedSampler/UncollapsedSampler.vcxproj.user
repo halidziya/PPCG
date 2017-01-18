@@ -3,11 +3,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>run\experiments\mnist\mnist.matrix run\experiments\mnist\mnist_prior.matrix run\experiments\mnist\mnist_params.matrix 500</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerWorkingDirectory>..</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>..\..\ExperimentKit</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommandArguments>run\experiments\parallel\mnist.matrix run\experiments\parallel\mnist_prior.matrix run\experiments\parallel\mnist_params.matrix 500</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>..</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>

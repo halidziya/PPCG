@@ -9,23 +9,19 @@ void Restaurant::run(int id)
 {
 	
 	// Use thread specific buffer
-	matbuffer.threadid = id;
-	buffer.threadid = id;
-	absbuffer.threadid = id;
+	threadid = id;
 
 	int taskid = this->taskid++; // Oth thread is the main process
 	
-	Matrix& chunk = ds.chunks[taskid];
+	vector<int> range = trange(n,nthd,threadid-1);
 	double maxlikelihood = 0, sum = 0, val = 0, newtablelikelihood = 0;
 	int i, j,dataid;
-	int chunksize = ds.chunks[0].r;
 	
 	//printf("id : %d  Last one : %d , chunk size : %d datasize : %d \n",id, id*chunksize + data.r - 1, chunksize, data.r);
-	for ( i = 0; i < chunk.r; i++)
+	for ( dataid = range[0]; dataid < range[1]; dataid++)
 	{
-		dataid = taskid*chunksize + i;
 		if (labels[dataid] == nulliter) continue; // Collapsed part, out of uncollapsed part
-		Vector& data = chunk(i);
+		Vector& data = ds.data(dataid);
 		j = 0;
 
 		for (auto& table : tables)
@@ -162,7 +158,7 @@ void Restaurant::samplePosteriors()
 		alpha[i] += t.totalpoints;
 		i++;
 	}
-	alpha[i] = gamma; // Non parametric part
+	alpha[i] = gam; // Non parametric part
 
 	tabledist = Dirichlet(alpha);
 	sticks = tabledist.rnd();
@@ -196,7 +192,7 @@ void Restaurant::createTables(Vector& labels)
 		i++;
 	}
 	nulliter = tables.end();
-	alpha[i] = gamma;
+	alpha[i] = gam;
 	collapsedList.resize(thread::hardware_concurrency());
 	tabledist = Dirichlet(alpha);
 	printf("Alpha sum %d", alpha.sum());
@@ -273,7 +269,7 @@ list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 			Matrix& outer = (diff >> diff)*((npoints *kappa)/(s1));
 			table.likelihood[0] = log(table.npoints[0]) + Stut((table.sum[0] + mu0*kappa) / (s1), (Psi + table.scatter[0] + outer) * ((s1 + 1) / (s1*(m+npoints-d+1))), m + npoints - d + 1).likelihood(v);
 		}
-		double newtable = loglik0[dataid]+log(gamma);
+		double newtable = loglik0[dataid]+log(gam);
 		
 
 		maxlikelihood = newtable;

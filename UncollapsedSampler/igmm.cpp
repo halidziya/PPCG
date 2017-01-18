@@ -1,25 +1,20 @@
-#include "Matrix.h"
+#include "FastMat.h"
+
 #include "util.h"
-#include "DebugUtils.h"
-#include "DataSet.h"
-#include "ThreadPool.h"
 #include <iostream>
 #include <fstream>
 #include <list>
-#include "IWishart.h"
 #include "Algorithms.h"
 #include "Table.h"
 #include "Restaurant.h"
 using namespace std;
-
 
 int MAX_SWEEP = 500;
 int BURNIN = 300;
 int STEP = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
 char* result_dir = "";
 
-
-double gammalnd(int x) // Actually works on x/2 
+double gamlnd(int x) // Actually works on x/2 
 {
 	double res = 0;
 	for (auto i = 0; i < d; i++)  
@@ -79,7 +74,7 @@ int main(int argc, char** argv)
 	Vector labels(n);// = kmeans(ds);
 	labels.zero();
 	double logpi = log(M_PI);
-	precomputeGammaLn(2 * n + 100*d);
+	precomputegamLn(2 * n + 100*d);
 
 
 	Stut stt(priormean, priorvariance, T_eta);
@@ -133,10 +128,10 @@ int main(int argc, char** argv)
 			for (auto i = 0; i < tpool.numthreads; i++)
 				ss = ss + table.scatter[i];
 			ss = ss / (table.totalpoints + m);
-			totallikelihood +=  -0.5*table.totalpoints*d*logpi - gammalnd(m) + gammalnd(table.totalpoints + m) - (0.5*(table.totalpoints + m))*(d*log(table.totalpoints + m)
-				+ 2*ss.chol().sumlogdiag()) + (0.5*m)*(d*log(m) + 2*(Psi/m).chol().sumlogdiag()) - 0.5*d*log((table.totalpoints + kappa) / kappa) + log(gamma) + gl_pc[table.totalpoints*2];
+			totallikelihood +=  -0.5*table.totalpoints*d*logpi - gamlnd(m) + gamlnd(table.totalpoints + m) - (0.5*(table.totalpoints + m))*(d*log(table.totalpoints + m)
+				+ 2*ss.chol().sumlogdiag()) + (0.5*m)*(d*log(m) + 2*(Psi/m).chol().sumlogdiag()) - 0.5*d*log((table.totalpoints + kappa) / kappa) + log(gam) + gl_pc[table.totalpoints*2];
 		}
-		likelihoods[iter] = totallikelihood + gl_pc[gamma*2] - gl_pc[(gamma+n)*2];
+		likelihoods[iter] = totallikelihood + gl_pc[gam*2] - gl_pc[(gam+n)*2];
 	}
 
 

@@ -24,6 +24,6 @@ public:
 	void getInfo();
 	friend ostream& operator<<(ostream& os,Restaurant& r);
 	list<Table> sampleCollapsed(list<int> dataids);
-	boolean  collapsed = 1; //Last iteration is not collapsed
+	bool  collapsed = 1; //Last iteration is not collapsed
 	atomic<int> taskid;
 };
