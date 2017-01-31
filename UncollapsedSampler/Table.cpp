@@ -37,6 +37,7 @@ void Table::calculatePosteriors()
 		//for (auto i = 0; i < 100; i++)
 			//sscatter = sscatter + posteriorcov.rnd();
 		Matrix& sigma = posteriorcov.rnd();
+		
 		posteriormean = Normal((ssum + mu0*kappa)*divider, sigma*divider);
 		datadist = Normal(posteriormean.rnd(), sigma);
 
@@ -97,13 +98,21 @@ void Table::cremovePoint(Vector & v)
 void Table::caddPoint(Vector & v)
 {
 	int threadid = 0;
-	this->npoints[threadid] += 1;
-	Vector& sampleMean = sum[threadid] / (npoints[threadid]-1);
-	if (npoints[threadid] == 1)
-		sampleMean <<= mu0;
-	Vector& diff = (v - sampleMean);
-	this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*((npoints[threadid] -1.0)/ npoints[threadid]);
-	this->sum[threadid] = this->sum[threadid] + v;
+	if (totalpoints != 0) {
+		this->npoints[threadid] += 1;
+		Vector& sampleMean = sum[threadid] / (npoints[threadid] - 1);
+		if (npoints[threadid] == 1)
+			sampleMean <<= mu0;
+		Vector& diff = (v - sampleMean);
+		this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*((npoints[threadid] - 1.0) / npoints[threadid]);
+		this->sum[threadid] = this->sum[threadid] + v;
+	}
+	else
+	{
+		this->npoints[threadid] = 1;
+		this->scatter[threadid] = zeros(d, d);
+		this->sum[threadid] = v;
+	}
 }
 
 

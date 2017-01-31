@@ -1,5 +1,19 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' does not match value '2' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
-ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' does not match value 'MTd_StaticDebug' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
-ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' does not match value '2' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
-ipo: : warning #11087: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libcpmt.lib: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' does not match value 'MTd_StaticDebug' in C:\Users\hzyereba\Desktop\PPCG\UncollapsedSampler\x64\Debug\Algorithms.obj.
+  Table.cpp
+  Restaurant.cpp
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(18): warning C4101: 'i': unreferenced local variable
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(153): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(170): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(182): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(183): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(200): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(358): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(357): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(357): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(357): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(357): note: consider using '%zd' in the format string
+c:\users\hzyereba\desktop\ppcg\uncollapsedsampler\restaurant.cpp(377): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\I2Slice\I2Slice\$\UncollapsedSampler.exe
+  UncollapsedSampler.vcxproj -> C:\Users\hzyereba\Desktop\I2Slice\I2Slice\$\UncollapsedSampler.pdb (Partial PDB)

@@ -9,10 +9,11 @@
 #include "Restaurant.h"
 using namespace std;
 
-int MAX_SWEEP = 500;
-int BURNIN = 300;
-int STEP = (MAX_SWEEP - BURNIN) / 10; // Default value is 10 sample + 1 post burnin
-char* result_dir = "";
+int MAX_SWEEP = 1500;
+int BURNIN = 1000;
+int SAMPLE = 20;
+int STEP = (MAX_SWEEP - BURNIN) / SAMPLE;
+char* result_dir = "./";
 
 double gamlnd(int x) // Actually works on x/2 
 {
@@ -32,22 +33,22 @@ int main(int argc, char** argv)
 
 
 
-	if (argc < 4) {
-		printf("Usage igmm datafilename priorfilename configfilename");
+	if (argc < 2) {
+		printf("Usage igmm datafilename [priorfilename] [configfilename]");
 		exit(-1);
 	}
-
-
-	char* datafile(argv[1]);
-	char* priorfile(argv[2]);
-	char* configfile(argv[3]);
 	
-	
-
 	if (argc>4)
 		MAX_SWEEP = atoi(argv[4]);
-	if (argc > 5)
-		result_dir = argv[5];
+	if (argc>5)
+		BURNIN = atoi(argv[5]);
+	if (argc > 6)
+		result_dir = argv[6];
+	else
+	{
+		string str(argv[1]);
+		result_dir = (char*)str.substr(0, str.find_last_of("/\\")).c_str(); // Datafile folder
+	}
 	//SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value
 	//if (argc>7)
 	//	SAMPLE = atoi(argv[7]);
@@ -56,11 +57,13 @@ int main(int argc, char** argv)
 	
 	string ss(result_dir);
 	printf("Reading...\n");
-	DataSet ds(datafile, priorfile, configfile);
+	nthd = thread::hardware_concurrency();
+	DataSet ds(argc,argv);
 	n = ds.data.r;
 	d = ds.data.m;
 	Vector priormean(d);
 	Matrix priorvariance(d, d,1);
+	T_eta = m - d + 1;
 	//priorvariance.eye();
 	priorvariance = Psi*((kappa + 1) / ((kappa)*T_eta));
 	priormean = mu0;
@@ -83,9 +86,7 @@ int main(int argc, char** argv)
 	r.createTables(labels);
 	printf("\nInitial tables : %d\n", r.tables.size());
 	ThreadPool tpool(thread::hardware_concurrency());
-
-	int nlabelsample = ((MAX_SWEEP - BURNIN) / STEP);
-	Matrix sampledLabels(nlabelsample,n);
+	Matrix     sampledLabels(SAMPLE, n);
 	Vector likelihoods(MAX_SWEEP);
 	PILL_DEBUG;
 	step();
@@ -109,11 +110,22 @@ int main(int argc, char** argv)
 		}
 
 
-		if (iter >= BURNIN && (iter - BURNIN)%STEP==0) {
-			int li = (((iter - BURNIN) / STEP));
-			for (auto i = 0; i < n;i++)
-				sampledLabels(li)[i] = r.labels[i]->id;
+
+		if (((MAX_SWEEP - iter - 1) % STEP) == 0 && iter >= BURNIN)
+		{
+			int sampleno = (MAX_SWEEP - iter - 1) / STEP;
+			if (sampleno < SAMPLE)
+			{
+				for (auto i = 0; i < n; i++)
+					sampledLabels(sampleno)[i] = r.labels[i]->id;
+			}
 		}
+
+		//if (iter >= BURNIN && (iter - BURNIN)%STEP==0) {
+		//	int li = (((iter - BURNIN) / STEP));
+		//	for (auto i = 0; i < n;i++)
+		//		sampledLabels(li)[i] = r.labels[i]->id;
+		//}
 
 	double totallikelihood = 0;
 		for (auto& table : r.tables) // Jchang's formula for joint marginal distribution
@@ -143,8 +155,11 @@ int main(int argc, char** argv)
 	string s(result_dir);
 	ofstream restfile(s.append("_igmm.rest"), ios::out | ios::binary);
 
+	//string s2(result_dir);
+	//ofstream labelfile(s2.append("_igmm.labels"), ios::out | ios::binary);
+
 	string s2(result_dir);
-	ofstream labelfile(s2.append("_igmm.labels"), ios::out | ios::binary);
+	ofstream labelfile(s2.append("Labels.matrix"), ios::out | ios::binary);
 
 	string s3(result_dir);
 	ofstream likefile(s3.append("_igmm.likelihood"), ios::out | ios::binary);
