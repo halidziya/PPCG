@@ -106,12 +106,14 @@ void Table::caddPoint(Vector & v)
 		Vector& diff = (v - sampleMean);
 		this->scatter[threadid] = this->scatter[threadid] + (diff >> diff)*((npoints[threadid] - 1.0) / npoints[threadid]);
 		this->sum[threadid] = this->sum[threadid] + v;
+		totalpoints++;
 	}
 	else
 	{
 		this->npoints[threadid] = 1;
 		this->scatter[threadid] = zeros(d, d);
 		this->sum[threadid] = v;
+		totalpoints = 1;
 	}
 }
 
