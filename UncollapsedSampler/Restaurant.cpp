@@ -220,24 +220,7 @@ void Restaurant::getInfo()
 		tableid++;
 	}
 }
-bool compare_clusters(Table& c1, Table& c2)
-{
-	return c1.npoints > c2.npoints;
-}
 
-
-void reid(list<Table>& tables)
-{
-	tables.sort(compare_clusters);
-	int i = 0;
-	for (auto& acul : tables)
-		acul.id = i++;
-	for (auto atable = tables.begin(); atable != tables.end();)
-		if (atable != tables.end() && atable->totalpoints == 0)
-			atable = tables.erase(atable);
-		else
-			++atable;
-}
 
 list<Table> Restaurant::sampleCollapsed(list<int> dataids)
 {

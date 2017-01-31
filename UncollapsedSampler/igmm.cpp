@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 
 
 	if (argc < 2) {
-		printf("Usage igmm datafilename [priorfilename] [configfilename]");
+		printf("Usage: igmm.exe datafilename [priorfilename] [paramfilename] [MAX_SWEEP] [BURNIN] [result_dir] [SAMPLE]");
 		exit(-1);
 	}
 	
@@ -49,9 +49,16 @@ int main(int argc, char** argv)
 		string str(argv[1]);
 		result_dir = (char*)str.substr(0, str.find_last_of("/\\")).c_str(); // Datafile folder
 	}
-	//SAMPLE = (MAX_SWEEP - BURNIN) / 10; // Default value
-	//if (argc>7)
-	//	SAMPLE = atoi(argv[7]);
+	if (argc > 7)
+	{
+		SAMPLE = atoi(argv[7]);
+	}
+	STEP = (MAX_SWEEP - BURNIN) / SAMPLE;
+	if (BURNIN >= MAX_SWEEP | STEP == 0) // Housekeeping
+	{
+		BURNIN = MAX_SWEEP - 2;
+		SAMPLE = 1; STEP = 1;
+	}
 
 	
 	
@@ -93,7 +100,9 @@ int main(int argc, char** argv)
 	for (auto iter = 0; iter < MAX_SWEEP; iter++)
 	{
 
+			
 			r.resetStats();
+			
 			for (auto i = 0; i < tpool.numthreads; i++) {
 				tpool.submit(r);
 			}
@@ -110,7 +119,7 @@ int main(int argc, char** argv)
 		}
 
 
-
+		//reid(r.tables);
 		if (((MAX_SWEEP - iter - 1) % STEP) == 0 && iter >= BURNIN)
 		{
 			int sampleno = (MAX_SWEEP - iter - 1) / STEP;
