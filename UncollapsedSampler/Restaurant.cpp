@@ -168,7 +168,7 @@ void Restaurant::samplePosteriors()
 void Restaurant::createTables(Vector& labels)
 {
 	srand(time(NULL));
-	Vector& tableids = labels.unique();
+	Vector tableids = labels.unique();
 	Vector alpha(tableids.n+1, 1, 0);
 	tables.resize(tableids.n);
 	for (auto& table : tables)
