@@ -1,9 +1,0 @@
-#PBS -N GPU_compile
-#PBS -l nodes=1:ppn=1,mem=2000m,walltime=24:00:00
-#PBS -M hzyereba
-#PBS -q gpu
-cd $PBS_O_WORKDIR 
-module load ccm
-module load cudatoolkit
-module load craype-accel-nvidia35
-aprun make gpu_compile
